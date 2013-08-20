@@ -117,7 +117,7 @@ li {
 		background: #f2503f;
 	}
 
-	.created-lists.closed li:first-child::after {
+	.created-lists.closed li.active::after {
 		border-top: 10px solid transparent;
 		border-bottom: 10px solid transparent;
 		border-left: 10px solid #fff;
@@ -129,7 +129,7 @@ li {
 			left: 234px;
 	}
 
-	.created-lists.opened li:first-child::after {
+	.created-lists.opened li.active::after {
 		border-top: 10px solid #fff;
 		border-right: 10px solid transparent;
 		border-left: 10px solid transparent;

@@ -4,6 +4,8 @@
 
 var syncr = {
 
+	// contain the number of the new list being made
+	newListNumber: '',
 	// get the number of items in the current list
 	numberOfListItems: '',
 	// current list the user is interacting with
@@ -27,6 +29,28 @@ var syncr = {
 			.insertBefore( '#' + currentList + ' li:last' );
 	},
 
+	createList: function () {
+
+		// set var to be what number the new list will be
+		syncr.newListNumber = $( '.list' ).length + 1;
+
+		var newListName = prompt( 'What should this new list be called?', 'List ' + syncr.newListNumber );
+
+		$( '.active' )
+			.toggleClass( 'active hide' );
+
+		$( '.created-lists ol' )
+			.append( '<li class="active" id="pickList-' + syncr.newListNumber + '">' + newListName + '</li>' );
+
+		$( '<ol class="list active" id="list-' + syncr.newListNumber + '">' +
+				'<li class="add-new-item">+ New item</li>' +
+			'</ol>' )
+			.insertBefore( '.close-menu' );
+
+		syncr.closeMenu();
+
+	},
+
 	// edit existing item
 	editItem: function ( currentItem ) {
 		$( currentItem )
@@ -35,6 +59,7 @@ var syncr = {
 
 	// open the menu
 	openMenu: function () {
+		window.location.hash = '#menuView';
 		$( '.menu-icon a' )
 			.toggleClass( 'closed opened' );
 		$( '.close-menu' )
@@ -43,6 +68,7 @@ var syncr = {
 
 	// close the menu
 	closeMenu: function () {
+		window.location.hash = '#';
 		$( '.menu-icon a' )
 			.toggleClass( 'closed opened' );
 		$( '.close-menu' )
@@ -51,9 +77,22 @@ var syncr = {
 
 	// change the list the user is viewing
 	changeLists: function () {
+
 		$( '.created-lists' ).toggleClass( 'closed opened' );
-		$( '.created-lists li:not(:first)' ).toggleClass( 'hide' );
-	}
+		$( '.created-lists li' ).removeClass( 'hide active' );
+
+		$( '.created-lists li' ).on( 'click', function () {
+
+			syncr.currentList = $( this ).attr( 'id' ).substr( 9 );
+
+			$( this )
+				.addClass( 'active' )
+				.siblings().addClass( 'hide' );
+
+			$( '.list.active' ).toggleClass( 'active hide' );
+			$( '#list-' + syncr.currentList ).toggleClass( 'active hide' );
+		});
+	},
 
 };
 
@@ -77,7 +116,7 @@ $( document ).ready ( function () {
 	});
 
 	// open up the 'list of lists' when the active list title is clicked
-	$( '.created-lists .active' ).on( 'click', function () {
+	$( '.created-lists' ).on( 'click', '.active', function () {
 		syncr.changeLists();
 	});
 
@@ -134,6 +173,11 @@ $( document ).ready ( function () {
 
 		});
 
+	});
+
+	// when clicking on the 'create' button...
+	$( '#createList' ).on( 'click', function () {
+		syncr.createList();
 	});
 
 });
