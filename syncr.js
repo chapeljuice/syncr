@@ -4,6 +4,10 @@
 
 var syncr = {
 
+	///////////////
+	// variables //
+	///////////////
+
 	// contain the number of the new list being made
 	newListNumber: '',
 	// get the number of items in the current list
@@ -19,14 +23,27 @@ var syncr = {
 	touchType: '',
 	touchDirection: '',
 
-	// add new item
-	addItem: function ( currentList ) {
-		// set var to be the number of items in the current list
-		syncr.numberOfListItems = $( '#' + currentList ).children().length;
 
-		// add a new list item with an input field to enter a enw item into it
-		$( '<li class="item-editing item-' +  syncr.numberOfListItems + '"><input class="editableItem" type="text" placeholder="Type new item here" autofocus /></li>' )
-			.insertBefore( '#' + currentList + ' li:last' );
+	///////////////////////////
+	//  menu-view functions  //
+	///////////////////////////
+
+	// open the menu
+	openMenu: function () {
+		window.location.hash = '#menuView';
+		$( '.menu-icon a' )
+			.toggleClass( 'closed opened' );
+		$( '.close-menu' )
+			.css( 'display', 'block' );
+	},
+
+	// close the menu
+	closeMenu: function () {
+		window.location.hash = '#';
+		$( '.menu-icon a' )
+			.toggleClass( 'closed opened' );
+		$( '.close-menu' )
+			.hide();
 	},
 
 	createList: function () {
@@ -51,29 +68,10 @@ var syncr = {
 
 	},
 
-	// edit existing item
-	editItem: function ( currentItem ) {
-		$( currentItem )
-			.replaceWith( '<li class="item-editing ' +  $( currentItem ).attr( 'class' ) + '"><input class="editableItem" type="text" value="' + $( currentItem ).text() + '" autofocus /></li>' );
-	},
 
-	// open the menu
-	openMenu: function () {
-		window.location.hash = '#menuView';
-		$( '.menu-icon a' )
-			.toggleClass( 'closed opened' );
-		$( '.close-menu' )
-			.css( 'display', 'block' );
-	},
-
-	// close the menu
-	closeMenu: function () {
-		window.location.hash = '#';
-		$( '.menu-icon a' )
-			.toggleClass( 'closed opened' );
-		$( '.close-menu' )
-			.hide();
-	},
+	///////////////////////////////
+	//  list-specific functions  //
+	///////////////////////////////
 
 	// change the list the user is viewing
 	changeLists: function () {
@@ -81,29 +79,63 @@ var syncr = {
 		$( '.created-lists' ).toggleClass( 'closed opened' );
 		$( '.created-lists li' ).removeClass( 'hide active' );
 
-		$( '.created-lists li' ).on( 'click', function () {
+		$( '.list' )
+			.removeClass( 'active' )
+			.addClass( 'hide' );
+
+		$( '.created-lists ol' ).on( 'click', 'li', function ( e ) {
 
 			syncr.currentList = $( this ).attr( 'id' ).substr( 9 );
 
-			$( this )
+			$( '#pickList-' + syncr.currentList )
 				.addClass( 'active' )
 				.siblings().addClass( 'hide' );
 
-			$( '.list.active' ).toggleClass( 'active hide' );
-			$( '#list-' + syncr.currentList ).toggleClass( 'active hide' );
+			$( '.created-lists' ).toggleClass( 'closed opened' );
+
+			$( '#list-' + syncr.currentList )
+				.removeClass( 'hide' )
+				.addClass( 'active' );
+
 		});
+
+		e.preventDefault();
 	},
+
+	// rename the current list
+	renameList: function () {
+
+	},
+
+
+	///////////////////////////////
+	//  item-specific functions  //
+	///////////////////////////////
+
+	// add new item
+	addItem: function ( currentList ) {
+		// set var to be the number of items in the current list
+		syncr.numberOfListItems = $( '#' + currentList ).children().length;
+
+		// add a new list item with an input field to enter a enw item into it
+		$( '<li class="item-editing item-' +  syncr.numberOfListItems + '"><input class="editableItem" type="text" placeholder="Type new item here" autofocus /></li>' )
+			.insertBefore( '#' + currentList + ' li:last' );
+	},
+
+	// edit existing item
+	editItem: function ( currentItem ) {
+		$( currentItem )
+			.replaceWith( '<li class="item-editing ' +  $( currentItem ).attr( 'class' ) + '"><input class="editableItem" type="text" value="' + $( currentItem ).text() + '" autofocus /></li>' );
+	}
 
 };
 
 
 $( document ).ready ( function () {
 
-	// add a new item when clicking on the 'new item' item
-	$( '.add-new-item' ).on( 'click', function ( e ) {
-		syncr.currentList = $( this ).parent().attr( 'id' );
-		syncr.addItem( syncr.currentList );
-	});
+	////////////////////////
+	//  menu-view events  //
+	////////////////////////
 
 	// open the menu when clicking on the menu icon
 	$( '.menu-icon a' ).on( 'click', function () {
@@ -115,22 +147,25 @@ $( document ).ready ( function () {
 		syncr.closeMenu();
 	});
 
+	// when clicking on the 'create' button...
+	$( '#createList' ).on( 'click', function () {
+		syncr.createList();
+	});
+
+
+	////////////////////////////
+	//  list-specific events  //
+	////////////////////////////
+
 	// open up the 'list of lists' when the active list title is clicked
-	$( '.created-lists' ).on( 'click', '.active', function () {
+	$( '.created-lists ol' ).on( 'click', 'li.active', function () {
 		syncr.changeLists();
 	});
 
-	// on keypress or blur of an input field...
-	$( '.list' ).on( 'keypress blur', 'input', function ( e ) {
-		// check to see if the user pressed 'enter', 'return', or focued out of the input.
-		if ( e.which === 13 || e.type === 'blur' || e.type === 'focusout') {
 
-			// if so, remove the input field and set the value in a normal list item
-			$( '.item-editing' )
-				.html( $( '.editableItem' ).val().replace(/\s{2,}/g, ' ').trim() )
-				.removeClass( 'item-editing' );
-		}
-	});
+	////////////////////////////
+	//  item-specific events  //
+	////////////////////////////
 
 	// when touching a list item...
 	$( '.list' ).on( 'touchstart mousedown', '[class*="item-"]', function ( e ) {
@@ -175,9 +210,22 @@ $( document ).ready ( function () {
 
 	});
 
-	// when clicking on the 'create' button...
-	$( '#createList' ).on( 'click', function () {
-		syncr.createList();
+	// add a new item when clicking on the 'new item' item
+	$( '.add-new-item' ).on( 'click', function ( e ) {
+		syncr.currentList = $( this ).parent().attr( 'id' );
+		syncr.addItem( syncr.currentList );
+	});
+
+	// on keypress or blur of an input field...
+	$( '.list' ).on( 'keypress blur', 'input', function ( e ) {
+		// check to see if the user pressed 'enter', 'return', or focued out of the input.
+		if ( e.which === 13 || e.type === 'blur' || e.type === 'focusout') {
+
+			// if so, remove the input field and set the value in a normal list item
+			$( '.item-editing' )
+				.html( $( '.editableItem' ).val().replace(/\s{2,}/g, ' ').trim() )
+				.removeClass( 'item-editing' );
+		}
 	});
 
 });
