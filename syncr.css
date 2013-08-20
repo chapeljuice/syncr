@@ -117,30 +117,6 @@ li {
 		background: #f2503f;
 	}
 
-	.created-lists.closed li.active::after {
-		border-top: 10px solid transparent;
-		border-bottom: 10px solid transparent;
-		border-left: 10px solid #fff;
-		content: '';
-		height: 0;
-		width: 0;
-		position: absolute;
-			top: 27px;
-			left: 234px;
-	}
-
-	.created-lists.opened li.active::after {
-		border-top: 10px solid #fff;
-		border-right: 10px solid transparent;
-		border-left: 10px solid transparent;
-		content: '';
-		height: 0;
-		width: 0;
-		position: absolute;
-			top: 34px;
-			left: 228px;
-	}
-
 .list li:nth-of-type(odd) {
 	background: #3498db;
 }
