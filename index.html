@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <title>syncr</title>
+    <link rel="stylesheet" href="syncr.css" />
+  </head>
+  <body>
+
+    <!-- menu view -->
+    <div class="menu-view" id="menuView">
+
+      <ul>
+        <li id="createList">Create a new list...</li>
+        <li id="renameList">Rename list...</li>
+        <li id="clearList">Clear list...</li>
+        <li id="deleteList">Delete list...</li>
+      </ul>
+
+    </div>
+
+    <!-- list view -->
+    <div class="list-view" id="listView">
+
+      <div class="menu-icon"><a href="#menuView" class="closed">&#8801;</a></div>
+
+      <div class="created-lists closed">
+        <ol>
+          <li class="active" id="groceryStore">Grocery Store</li>
+          <li class="hide" id="homeDepot">Home Depot</li>
+        </ol>
+      </div>
+
+      <ol class="list" id="list-1">
+        <li class="item-1">Milk</li>
+        <li class="item-2">Bread</li>
+        <li class="item-3">Green Beans</li>
+        <li class="add-new-item">+ New item</li>
+      </ol>
+
+      <ol class="list hide" id="list-2">
+        <li class="add-new-item">+ New item</li>
+      </ol>
+
+      <a href="#" class="close-menu"></a>
+
+    </div>
+
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"><!></script>
+    <script src="syncr.js"><!></script>
+
+  </body>
+</html>
