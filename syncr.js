@@ -10,6 +10,8 @@ var syncr = {
 
 	// contain the number of the new list being made
 	newListNumber: '',
+	// contains the number of lists in the app
+	numberOfLists: '',
 	// get the number of items in the current list
 	numberOfListItems: '',
 	// current list the user is interacting with
@@ -46,6 +48,47 @@ var syncr = {
 			.hide();
 	},
 
+
+	///////////////////////////////
+	//  list-specific functions  //
+	///////////////////////////////
+
+	// change the list the user is viewing
+	changeLists: function ( newList ) {
+
+		// make the list the user selects the active list, and hide the rest of the list titles
+		$( '#pickList-' + newList )
+			.addClass( 'active' )
+			.siblings().addClass( 'hide' );
+		$( '.created-lists' )
+			.addClass( 'closed' )
+			.removeClass( 'opened' );
+
+		// show the items of the list the user is opening
+		$( '#list-' + newList )
+			.removeClass( 'hide' )
+			.addClass( 'active' );
+	},
+
+	// clear all the items of the current list
+	clearList: function () {
+
+		// ask the user if they're sure they want to delete all their list items
+		var confirmClearList = confirm( 'Are you sure you want to delete all the items from this list?' );
+
+		// if they do...
+		if ( confirmClearList === true ) {
+
+			// clear out all their list items
+			$( '.list.active' )
+				.html( '<li class="add-new-item">+ New item</li>' );
+
+			// and close the menu
+			syncr.closeMenu();
+		}
+
+	},
+
 	createList: function () {
 
 		// set var to be what number the new list will be
@@ -68,42 +111,85 @@ var syncr = {
 
 	},
 
+	// delete the current list
+	deleteList: function () {
 
-	///////////////////////////////
-	//  list-specific functions  //
-	///////////////////////////////
+		// ask the user if they're sure they want to delete the current list
+		var confirmDeleteList = confirm( 'Are you sure you want to delete this list?' );
 
-	// change the list the user is viewing
-	changeLists: function () {
+		// if they do...
+		if ( confirmDeleteList === true ) {
 
-		$( '.created-lists' ).toggleClass( 'closed opened' );
+			// delete the current list
+			$( '.list.active' )
+				.remove();
+
+			// delete the current list title
+			$( '.created-lists .active' )
+				.remove();
+
+			syncr.numberOfLists = $( '.created-lists li' ).length;
+
+			// check to see if there are any lists left over
+			if ( syncr.numberOfLists > 0 ) {
+
+				// if there are, view the fist one
+				$( '.created-lists li:first-child' )
+					.addClass( 'active' )
+					.removeClass( 'hide' );
+				$( '.list' )
+					.first()
+					.addClass( 'active' )
+					.removeClass( 'hide' );
+
+			} else {
+
+				// if there are not, make a new default one
+				$( '.created-lists ol' )
+					.html( '<li class="active" id="pickList-1">List 1</li>' );
+				$( '<ol class="list active" id="list-1">' +
+						'<li class="add-new-item">+ New item</li>' +
+					'</ol>' )
+					.insertBefore( '.close-menu' );
+
+			}
+		}
+
+	},
+
+	// opens the list of lists
+	openLists: function () {
+
+		// show all the lists available
+		$( '.created-lists' )
+			.addClass( 'opened' )
+			.removeClass( 'closed' );
 		$( '.created-lists li' ).removeClass( 'hide active' );
 
+		// hide the items from the list the user was just viewing
 		$( '.list' )
 			.removeClass( 'active' )
 			.addClass( 'hide' );
 
-		$( '.created-lists ol' ).on( 'click', 'li', function ( e ) {
-
+		// when the user selects a list to open...
+		$( 'header' ).on( 'click', '.opened li', function () {
+			// get the list the user clicks on
 			syncr.currentList = $( this ).attr( 'id' ).substr( 9 );
-
-			$( '#pickList-' + syncr.currentList )
-				.addClass( 'active' )
-				.siblings().addClass( 'hide' );
-
-			$( '.created-lists' ).toggleClass( 'closed opened' );
-
-			$( '#list-' + syncr.currentList )
-				.removeClass( 'hide' )
-				.addClass( 'active' );
-
+			// and send it to the 'changeLists()' function
+			syncr.changeLists( syncr.currentList );
 		});
 
-		e.preventDefault();
 	},
 
 	// rename the current list
 	renameList: function () {
+
+		syncr.currentList = $( '.created-lists .active' ).text();
+		var renameListName = prompt( 'What should this list be called now?', syncr.currentList );
+
+		$( '.created-lists .active' ).text( renameListName );
+
+		syncr.closeMenu();
 
 	},
 
@@ -152,14 +238,29 @@ $( document ).ready ( function () {
 		syncr.createList();
 	});
 
+	// rename the current list
+	$( '#renameList' ).on( 'click', function () {
+		syncr.renameList();
+	});
+
+	// clear all items of the current list
+	$( '#clearList' ).on( 'click', function () {
+		syncr.clearList();
+	});
+
+	// delete the current list
+	$( '#deleteList' ).on( 'click', function () {
+		syncr.deleteList();
+	});
+
 
 	////////////////////////////
 	//  list-specific events  //
 	////////////////////////////
 
 	// open up the 'list of lists' when the active list title is clicked
-	$( '.created-lists ol' ).on( 'click', 'li.active', function () {
-		syncr.changeLists();
+	$( 'header' ).on( 'click', '.closed li.active', function () {
+		syncr.openLists();
 	});
 
 
@@ -211,20 +312,31 @@ $( document ).ready ( function () {
 	});
 
 	// add a new item when clicking on the 'new item' item
-	$( '.add-new-item' ).on( 'click', function ( e ) {
+	$( '.list.active' ).on( 'click', '.add-new-item', function ( e ) {
 		syncr.currentList = $( this ).parent().attr( 'id' );
 		syncr.addItem( syncr.currentList );
 	});
 
 	// on keypress or blur of an input field...
 	$( '.list' ).on( 'keypress blur', 'input', function ( e ) {
-		// check to see if the user pressed 'enter', 'return', or focued out of the input.
-		if ( e.which === 13 || e.type === 'blur' || e.type === 'focusout') {
+		// check to see if the user pressed 'enter', 'return',, 'esc', or focued out of the input.
+		if ( e.which === 13 || e.which === 27 || e.type === 'blur' || e.type === 'focusout' ) {
 
-			// if so, remove the input field and set the value in a normal list item
-			$( '.item-editing' )
-				.html( $( '.editableItem' ).val().replace(/\s{2,}/g, ' ').trim() )
-				.removeClass( 'item-editing' );
+			// make sure there's a value
+			if ( $( '.editableItem' ).val() !== '' ) {
+
+				// if so, remove the input field and set the value in a normal list item
+				$( '.item-editing' )
+					.html( $( '.editableItem' ).val().replace(/\s{2,}/g, ' ').trim() )
+					.removeClass( 'item-editing' );
+
+			} else {
+
+				// or else just remove the new blank item
+				$( '.item-editing' )
+					.remove();
+
+			}
 		}
 	});
 
