@@ -10,6 +10,8 @@ var syncr = {
 
 	// contain the number of the new list being made
 	newListNumber: '',
+	// contains the name of the new list
+	newListName: '',
 	// contains the number of lists in the app
 	numberOfLists: '',
 	// get the number of items in the current list
@@ -25,6 +27,22 @@ var syncr = {
 	touchType: '',
 	touchDirection: '',
 
+	//////////////////////////////////
+	//  init and general functions  //
+	//////////////////////////////////
+
+	initialize: function () {
+
+		syncr.numberOfLists = $( '.created-lists li' ).length;
+
+		// if there aren't any lists, help the user out
+		if ( syncr.numberOfLists === 0 ) {
+
+			syncr.openModal( 'create-modal', 'welcome-text' );
+			$( '#createInput' ).focus();
+		}
+	},
+
 
 	///////////////////////////
 	//  menu-view functions  //
@@ -36,7 +54,7 @@ var syncr = {
 		$( '.menu-icon a' )
 			.toggleClass( 'closed opened' );
 		$( '.close-menu' )
-			.css( 'display', 'block' );
+			.removeClass( 'hide' );
 	},
 
 	// close the menu
@@ -45,7 +63,7 @@ var syncr = {
 		$( '.menu-icon a' )
 			.toggleClass( 'closed opened' );
 		$( '.close-menu' )
-			.hide();
+			.addClass( 'hide' );
 	},
 
 
@@ -73,40 +91,40 @@ var syncr = {
 	// clear all the items of the current list
 	clearList: function () {
 
-		// ask the user if they're sure they want to delete all their list items
-		var confirmClearList = confirm( 'Are you sure you want to delete all the items from this list?' );
-
-		// if they do...
-		if ( confirmClearList === true ) {
-
 			// clear out all their list items
 			$( '.list.active' )
 				.html( '<li class="add-new-item">+ New item</li>' );
 
+			syncr.closeModal();
 			// and close the menu
 			syncr.closeMenu();
-		}
 
 	},
 
+	// create a new list
 	createList: function () {
 
 		// set var to be what number the new list will be
 		syncr.newListNumber = $( '.list' ).length + 1;
 
-		var newListName = prompt( 'What should this new list be called?', 'List ' + syncr.newListNumber );
+		if ( $( '#createInput' ).val() !== '' ) {
+			syncr.newListName = $( '#createInput' ).val();
+		} else {
+			syncr.newListName = 'List-' + syncr.newListNumber;
+		}
 
 		$( '.active' )
 			.toggleClass( 'active hide' );
 
 		$( '.created-lists ol' )
-			.append( '<li class="active" id="pickList-' + syncr.newListNumber + '">' + newListName + '</li>' );
+			.append( '<li class="active" id="pickList-' + syncr.newListNumber + '">' + syncr.newListName + '</li>' );
 
 		$( '<ol class="list active" id="list-' + syncr.newListNumber + '">' +
 				'<li class="add-new-item">+ New item</li>' +
 			'</ol>' )
 			.insertBefore( '.close-menu' );
 
+		syncr.closeModal();
 		syncr.closeMenu();
 
 	},
@@ -114,46 +132,42 @@ var syncr = {
 	// delete the current list
 	deleteList: function () {
 
-		// ask the user if they're sure they want to delete the current list
-		var confirmDeleteList = confirm( 'Are you sure you want to delete this list?' );
+		// delete the current list
+		$( '.list.active' )
+			.remove();
 
-		// if they do...
-		if ( confirmDeleteList === true ) {
+		// delete the current list title
+		$( '.created-lists .active' )
+			.remove();
 
-			// delete the current list
-			$( '.list.active' )
-				.remove();
+		syncr.numberOfLists = $( '.created-lists li' ).length;
 
-			// delete the current list title
-			$( '.created-lists .active' )
-				.remove();
+		// check to see if there are any lists left over
+		if ( syncr.numberOfLists > 0 ) {
 
-			syncr.numberOfLists = $( '.created-lists li' ).length;
+			// if there are, view the fist one
+			$( '.created-lists li:first-child' )
+				.addClass( 'active' )
+				.removeClass( 'hide' );
+			$( '.list' )
+				.first()
+				.addClass( 'active' )
+				.removeClass( 'hide' );
 
-			// check to see if there are any lists left over
-			if ( syncr.numberOfLists > 0 ) {
+		} else {
 
-				// if there are, view the fist one
-				$( '.created-lists li:first-child' )
-					.addClass( 'active' )
-					.removeClass( 'hide' );
-				$( '.list' )
-					.first()
-					.addClass( 'active' )
-					.removeClass( 'hide' );
+			// if there are not, make a new default one
+			$( '.created-lists ol' )
+				.html( '<li class="active" id="pickList-1">List 1</li>' );
+			$( '<ol class="list active" id="list-1">' +
+					'<li class="add-new-item">+ New item</li>' +
+				'</ol>' )
+				.insertBefore( '.close-menu' );
 
-			} else {
-
-				// if there are not, make a new default one
-				$( '.created-lists ol' )
-					.html( '<li class="active" id="pickList-1">List 1</li>' );
-				$( '<ol class="list active" id="list-1">' +
-						'<li class="add-new-item">+ New item</li>' +
-					'</ol>' )
-					.insertBefore( '.close-menu' );
-
-			}
 		}
+			
+		syncr.closeModal();
+		syncr.closeMenu();
 
 	},
 
@@ -184,11 +198,12 @@ var syncr = {
 	// rename the current list
 	renameList: function () {
 
-		syncr.currentList = $( '.created-lists .active' ).text();
-		var renameListName = prompt( 'What should this list be called now?', syncr.currentList );
+		var renameListName = $( '#renameInput' ).val();
+		if ( renameListName !== '' ) {
+			$( '.created-lists .active' ).text( renameListName );
+		}
 
-		$( '.created-lists .active' ).text( renameListName );
-
+		syncr.closeModal();
 		syncr.closeMenu();
 
 	},
@@ -212,12 +227,72 @@ var syncr = {
 	editItem: function ( currentItem ) {
 		$( currentItem )
 			.replaceWith( '<li class="item-editing ' +  $( currentItem ).attr( 'class' ) + '"><input class="editableItem" type="text" value="' + $( currentItem ).text() + '" autofocus /></li>' );
+	},
+
+	// submit the new item
+	setItem: function ( e, list ) {
+		// check to see if the user pressed 'enter', 'return',, 'esc', or focued out of the input.
+		if ( e.which === 13 || e.keyCode === 27 || e.type === 'blur' || e.type === 'focusout' ) {
+
+			// make sure there's a value
+			if ( $( '.editableItem' ).val() !== '' ) {
+
+				// if so, remove the input field and set the value in a normal list item
+				$( '.item-editing' )
+					.html( $( '.editableItem' ).val().replace(/\s{2,}/g, ' ').trim() )
+					.removeClass( 'item-editing' );
+
+				if ( e.which === 13 || e.keyCode === 27 ) {
+					syncr.addItem( list );
+				}
+
+			} else {
+
+				// or else just remove the new blank item
+				$( '.item-editing' )
+					.remove();
+
+			}
+		}
+	},
+
+
+	////////////////////////////////
+	//  modal-specific functions  //
+	////////////////////////////////
+
+	// open modal
+	openModal: function ( modalClass, type ) {
+
+		$( '.modal, .' + modalClass )
+			.removeClass( 'hide' );
+
+		if ( modalClass === 'create-modal' && type === 'welcome-text' ) {
+			$( '.welcome-text' )
+				.removeClass( 'hide' );
+		} else if ( modalClass === 'create-modal' && ( type !== 'welcome-text' || !type ) ) {
+			$( '.create-label' )
+				.removeClass( 'hide' );
+		}
+
+		syncr.closeMenu();
+	},
+
+	// close modal windows
+	closeModal: function () {
+		$( '.modal, div[class*="-modal"], .welcome-text, .create-label' )
+			.addClass( 'hide' );
+		$( 'input' ).val( '' );
 	}
+
 
 };
 
 
 $( document ).ready ( function () {
+
+	// warm it up chris.
+	syncr.initialize();
 
 	////////////////////////
 	//  menu-view events  //
@@ -233,24 +308,26 @@ $( document ).ready ( function () {
 		syncr.closeMenu();
 	});
 
-	// when clicking on the 'create' button...
+	// when clicking on the create button or inputs...
 	$( '#createList' ).on( 'click', function () {
-		syncr.createList();
+		syncr.openModal( 'create-modal' );
+		$( '#createInput' ).focus();
 	});
 
 	// rename the current list
 	$( '#renameList' ).on( 'click', function () {
-		syncr.renameList();
+		syncr.openModal( 'rename-modal' );
+		$( '#renameInput' ).focus();
 	});
 
 	// clear all items of the current list
 	$( '#clearList' ).on( 'click', function () {
-		syncr.clearList();
+		syncr.openModal( 'clear-modal' );
 	});
 
 	// delete the current list
 	$( '#deleteList' ).on( 'click', function () {
-		syncr.deleteList();
+		syncr.openModal( 'delete-modal' );
 	});
 
 
@@ -312,32 +389,52 @@ $( document ).ready ( function () {
 	});
 
 	// add a new item when clicking on the 'new item' item
-	$( '.list.active' ).on( 'click', '.add-new-item', function ( e ) {
+	$( '.list-view' ).on( 'click', '.list.active .add-new-item', function () {
 		syncr.currentList = $( this ).parent().attr( 'id' );
 		syncr.addItem( syncr.currentList );
 	});
 
-	// on keypress or blur of an input field...
-	$( '.list' ).on( 'keypress blur', 'input', function ( e ) {
-		// check to see if the user pressed 'enter', 'return',, 'esc', or focued out of the input.
-		if ( e.which === 13 || e.which === 27 || e.type === 'blur' || e.type === 'focusout' ) {
+	// on keydown or blur of an input field...
+	$( '.list-view' ).on( 'keydown blur', '.list input', function ( e ) {
+		syncr.currentList = $( this ).parents( '.list' ).attr( 'id' );
+		syncr.setItem( e, syncr.currentList );
+	});
 
-			// make sure there's a value
-			if ( $( '.editableItem' ).val() !== '' ) {
 
-				// if so, remove the input field and set the value in a normal list item
-				$( '.item-editing' )
-					.html( $( '.editableItem' ).val().replace(/\s{2,}/g, ' ').trim() )
-					.removeClass( 'item-editing' );
+	/////////////////////////////
+	//  modal-specific events  //
+	/////////////////////////////
 
-			} else {
-
-				// or else just remove the new blank item
-				$( '.item-editing' )
-					.remove();
-
-			}
+	$( '#createInput' ).on( 'keydown', function ( e ) {
+		if ( e.which === 13 || e.which === 27 ) {
+			syncr.createList();
 		}
+	});
+
+	$( '.create-button' ).on( 'click', function () {
+		syncr.createList();
+	});
+
+	$( '#renameInput' ).on( 'keydown', function ( e ) {
+		if ( e.which === 13 || e.which === 27 ) {
+			syncr.renameList();
+		}
+	});
+
+	$( '.rename-button' ).on( 'click', function () {
+		syncr.renameList();
+	});
+
+	$( '.clear-button' ).on( 'click', function () {
+		syncr.clearList();
+	});
+
+	$( '.delete-button' ).on( 'click', function () {
+		syncr.deleteList();
+	});
+
+	$( '.nevermind-button' ).on( 'click', function () {
+		syncr.closeModal();
 	});
 
 });
