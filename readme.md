@@ -14,5 +14,6 @@
 
 
 #### To-do's ####
-* Ability to save data and sync across all users.
-* More to come. Have any suggestions? Let me hear them! Email me at <a href="mailto:chaprtc@gmail.com?subject=Brightbox%20Suggestions">chaprtc@gmail.com</a>
+* More / better touch support and new touch actions coming soon.
+* Ability to save data and sync across all users (this is the hardest part of the whole project. gonna have to learn how to do it...no clue now).
+* More to come. Have any suggestions? Let me hear them! Email me at <a href="mailto:chaprtc@gmail.com?subject=Syncr%20Suggestions">chaprtc@gmail.com</a>
