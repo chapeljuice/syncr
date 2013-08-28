@@ -28,18 +28,46 @@
         <div class="menu-icon"><a href="#menuView" class="closed">&#8801;</a></div>
 
         <div class="created-lists closed">
-          <ol>
-            <li class="active" id="pickList-1">List 1</li>
-          </ol>
+          <ol></ol>
         </div>
 
       </header>
 
-      <ol class="list active" id="list-1">
-        <li class="add-new-item">+ New item</li>
-      </ol>
+      <a href="#" class="close-menu hide"></a>
 
-      <a href="#" class="close-menu"></a>
+      <!-- modals instead of browser dialogs so we can style them. -->
+      <div class="modal hide">
+
+        <div class="create-modal hide">
+          <div class="welcome-text hide">
+            <h2>Hey there!</h2>
+            <p>It doesn't look like you have any lists! Start using Syncr<span class="super">&reg;</span> by telling us what you want your first list to be called:</p>
+          </div>
+          <label for="createInput" class="create-label hide">What do you want to name your new list?</label>
+          <input type="text" class="create-modal-input" id="createInput" placeholder="ex. 'To-do'" />
+          <button class="create-button" type="button">Let's go add some items!</button>
+        </div>
+
+        <div class="rename-modal hide">
+          <label for="renameInput">Okay, rename this list to what now?</label>
+          <input type="text" class="rename-modal-input" id="renameInput" placeholder="ex. 'Wish list'" />
+          <button class="rename-button" type="button">Change the name.</button>
+          <button class="nevermind-button" type="button">Nah, nevermind.</button>
+        </div>
+
+        <div class="clear-modal hide">
+          <p>Are you sure you wanna delete all the items from this list?</p>
+          <button class="clear-button" type="button">Yep, delete 'em.</button>
+          <button class="nevermind-button" type="button">Nah, nevermind.</button>
+        </div>
+
+        <div class="delete-modal hide">
+          <p>Are you sure you wanna delete this list?</p>
+          <button class="delete-button" type="button">Yep, delete it.</button>
+          <button class="nevermind-button" type="button">Nope. Not sure.</button>
+        </div>
+
+      </div>
 
     </div>
 
