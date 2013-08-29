@@ -135,17 +135,20 @@ li {
 	}
 
 .list li.add-new-item {
-	background: #2c3e50;
+	background: transparent;
+	box-shadow: none;
+	opacity: .5;
 }
 	.list li.add-new-item:hover {
 		background: #314559;
 	}
 
 .close-menu {
+	color: #fff;
 	display: block;
 	height: 100%;
 	position: absolute;
-	top: 0;
+		top: 0;
 	width: 100%;
 }
 
