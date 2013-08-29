@@ -165,7 +165,7 @@ var syncr = {
 				.insertBefore( '.close-menu' );
 
 		}
-			
+
 		syncr.closeModal();
 		syncr.closeMenu();
 
@@ -242,7 +242,7 @@ var syncr = {
 					.html( $( '.editableItem' ).val().replace(/\s{2,}/g, ' ').trim() )
 					.removeClass( 'item-editing' );
 
-				if ( e.which === 13 || e.keyCode === 27 ) {
+				if ( e.which === 13 ) {
 					syncr.addItem( list );
 				}
 
@@ -346,13 +346,13 @@ $( document ).ready ( function () {
 	////////////////////////////
 
 	// when touching a list item...
-	$( '.list' ).on( 'touchstart mousedown', '[class*="item-"]', function ( e ) {
+	$( '.list-view' ).on( 'touchstart mousedown', '.list [class*="item-"]', function ( e ) {
 
 		// capture the coordinates of the first touch
 		syncr.touchDown = e.clientX;
 		
 		// when finished touching...
-		$( '.list' ).on( 'touchend mouseup', '[class*="item-"]', function ( e ) {
+		$( '.list-view' ).on( 'touchend mouseup', '.list [class*="item-"]', function ( e ) {
 			// capture the coordinates of the first touch
 			syncr.touchUp = e.clientX;
 			syncr.touchDifference = Math.abs( syncr.touchDown - syncr.touchUp );
