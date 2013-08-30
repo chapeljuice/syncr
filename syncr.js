@@ -20,6 +20,7 @@ var syncr = {
 	currentList: '',
 	// current item the user is interacting with
 	currentItem: '',
+	currentItemName: '',
 	// store touch coordinates & info
 	touchDown: '',
 	touchUp: '',
@@ -223,6 +224,23 @@ var syncr = {
 			.insertBefore( '#' + currentList + ' li:last' );
 	},
 
+	// presents user with a delete confirmation
+	deleteItem: function () {
+
+		// store the current item in a variable in case the user decides to undo the delete
+		syncr.currentItemName = $( syncr.currentItem ).text();
+
+		$( '.item-name' ).text( '"' + syncr.currentItemName + '"' );
+
+		// show the delete / undo options
+		$( syncr.currentItem )
+			.remove();
+
+		syncr.closeModal();
+		syncr.closeMenu();
+		
+	},
+
 	// edit existing item
 	editItem: function ( currentItem ) {
 		$( currentItem )
@@ -327,7 +345,7 @@ $( document ).ready ( function () {
 
 	// delete the current list
 	$( '#deleteList' ).on( 'click', function () {
-		syncr.openModal( 'delete-modal' );
+		syncr.openModal( 'delete-list-modal' );
 	});
 
 
@@ -358,17 +376,18 @@ $( document ).ready ( function () {
 			syncr.touchDifference = Math.abs( syncr.touchDown - syncr.touchUp );
 
 			// capture the list item the user is touching
+			syncr.currentList = '#' + $( this ).parent().attr( 'id' );
 			syncr.currentItem = '#' + $( this ).parent().attr( 'id' ) + ' .' + $( this ).attr( 'class' );
 
 			// check to see if the touch is a tap (click) or a swipe (drag), and what direction (if any) it's going
-			if ( syncr.touchDown > syncr.touchUp && syncr.touchDifference >= 20 ) {
+			if ( syncr.touchDown > syncr.touchUp && syncr.touchDifference >= 10 ) {
 				// user is swiping to the right
 				syncr.touchDirection = 'right';
 				syncr.touchType = 'swipe';
 
-				console.log( 'swipe right' );
+				syncr.openModal( 'delete-item-modal' );
 
-			} else if ( syncr.touchDown < syncr.touchUp && syncr.touchDifference >= 20 ) {
+			} else if ( syncr.touchDown < syncr.touchUp && syncr.touchDifference >= 10 ) {
 				// user is swiping to the left
 				syncr.touchDirection = 'left';
 				syncr.touchType = 'swipe';
@@ -429,8 +448,12 @@ $( document ).ready ( function () {
 		syncr.clearList();
 	});
 
-	$( '.delete-button' ).on( 'click', function () {
+	$( '.delete-list-button' ).on( 'click', function () {
 		syncr.deleteList();
+	});
+
+	$( '.delete-item-button' ).on( 'click', function () {
+		syncr.deleteItem();
 	});
 
 	$( '.nevermind-button' ).on( 'click', function () {
