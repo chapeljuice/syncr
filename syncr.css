@@ -71,6 +71,33 @@ li {
 		border-top: 1px solid #666;
 	}
 
+li.syncr-logo {
+	background: transparent;
+	box-shadow: none;
+	color: #000;
+	text-align: center;
+	text-shadow: 0px 1px 1px #666;
+
+}
+	li.syncr-logo:hover {
+		background: transparent;
+	}
+
+.logo {
+	font-size: 2em;
+	margin: 0 0 10px;
+	text-transform: uppercase;
+}
+
+.footer {
+	font-size: .75em; /* ~ 12px */
+}
+
+.footer a {
+	color: #000;
+	text-decoration: none;
+}
+
 
 /* ------------- */
 /*   list view   */

@@ -1,4 +1,4 @@
-## Syncr README ##
+## Syncr v0.1 README ##
 
 ### A simple to-do app ###
 
