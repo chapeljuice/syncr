@@ -56,7 +56,7 @@ li {
 	position: fixed;
 		top: 0;
 		left: 0;
-	width: 65%;
+	width: 75%;
 	z-index: -1;
 }
 
@@ -75,6 +75,7 @@ li.syncr-logo {
 	background: transparent;
 	box-shadow: none;
 	color: #000;
+	cursor: default;
 	text-align: center;
 	text-shadow: 0px 1px 1px #666;
 
@@ -86,7 +87,7 @@ li.syncr-logo {
 .logo {
 	font-size: 2em;
 	margin: 0 0 10px;
-	text-transform: uppercase;
+	text-transform: lowercase;
 }
 
 .footer {
@@ -117,7 +118,7 @@ li.syncr-logo {
 }
 
 	.menu-view:target + .list-view {
-		left: 65%;
+		left: 75%;
 	}
 
 .menu-icon {
@@ -177,6 +178,14 @@ li.syncr-logo {
 	position: absolute;
 		top: 0;
 	width: 100%;
+}
+
+.list-info {
+	color: #314559;
+	font-size: .75em;
+	margin-top: 20px;
+	text-align: center;
+	text-shadow: 0 1px 1px #8D99A5;
 }
 
 /* editable item styles */
