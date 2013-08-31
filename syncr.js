@@ -111,7 +111,7 @@ var syncr = {
 		if ( $( '#createInput' ).val() !== '' ) {
 			syncr.newListName = $( '#createInput' ).val();
 		} else {
-			syncr.newListName = 'List-' + syncr.newListNumber;
+			syncr.newListName = 'List #' + syncr.newListNumber;
 		}
 
 		$( '.active' )
