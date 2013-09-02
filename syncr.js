@@ -87,6 +87,10 @@ var syncr = {
 		$( '#list-' + newList )
 			.removeClass( 'hide' )
 			.addClass( 'active' );
+
+		// hide the list info tip
+		$( '.list-info' )
+			.addClass( 'hide' );
 	},
 
 	// clear all the items of the current list
@@ -180,6 +184,10 @@ var syncr = {
 			.addClass( 'opened' )
 			.removeClass( 'closed' );
 		$( '.created-lists li' ).removeClass( 'hide active' );
+
+		// show the list info tip
+		$( '.list-info' )
+			.removeClass( 'hide' );
 
 		// hide the items from the list the user was just viewing
 		$( '.list' )
