@@ -42,6 +42,19 @@ var syncr = {
 			syncr.openModal( 'create-modal', 'welcome-text' );
 			$( '#createInput' ).focus();
 		}
+
+		syncr.alignFooter();
+	},
+
+	// align footer nicely
+	alignFooter: function () {
+		var menuWidth = $( '.menu-view' ).width();
+		var footerWidth = $( '.footer' ).width();
+
+		$( '.footer' )
+			.css({
+				'left': ( menuWidth / 2 ) - ( footerWidth / 2 ) + 'px'
+			});
 	},
 
 
@@ -311,7 +324,6 @@ var syncr = {
 		$( 'input' ).val( '' );
 	}
 
-
 };
 
 
@@ -468,4 +480,8 @@ $( document ).ready ( function () {
 		syncr.closeModal();
 	});
 
+	// if the window is resized, align the footer
+	$( window ).resize( function () {
+		syncr.alignFooter();
+	});
 });

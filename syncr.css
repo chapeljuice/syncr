@@ -90,8 +90,15 @@ li.syncr-logo {
 	text-transform: lowercase;
 }
 
+.tagline {
+	font-size: .75em; /* ~ 12px */
+	font-style: italic;
+}
+
 .footer {
 	font-size: .75em; /* ~ 12px */
+	position: fixed;
+		bottom: 10px;
 }
 
 .footer a {
