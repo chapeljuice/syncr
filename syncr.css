@@ -205,7 +205,7 @@ li.item-editing {
 
 /* modal styles */
 .modal {
-	background: rgba( 0, 0, 0, .8 );
+	background: rgba( 0, 0, 0, .7 );
 	height: 100%;
 	position: absolute;
 		top: 0;
