@@ -268,6 +268,35 @@ var syncr = {
 			.replaceWith( '<li class="item-editing ' +  $( currentItem ).attr( 'class' ) + '"><input class="editableItem" type="text" value="' + $( currentItem ).text() + '" autofocus /></li>' );
 	},
 
+	// item is being touched, figure out what to do with it
+	itemTouch: function () {
+
+		// check to see if the touch is a tap (click) or a swipe (drag), and what direction (if any) it's going
+		if ( syncr.touchDown > syncr.touchUp && syncr.touchDifference >= 10 ) {
+			// user is swiping to the right
+			syncr.touchDirection = 'right';
+			syncr.touchType = 'swipe';
+
+			syncr.openModal( 'delete-item-modal' );
+
+		} else if ( syncr.touchDown < syncr.touchUp && syncr.touchDifference >= 10 ) {
+			// user is swiping to the left
+			syncr.touchDirection = 'left';
+			syncr.touchType = 'swipe';
+
+			console.log( 'swipe left' );
+
+		} else {
+			// user is tapping, so edit the item
+			syncr.touchDirection = 'none';
+			syncr.touchType = 'tap';
+
+			// edit the list item
+			syncr.editItem( syncr.currentItem );
+		}
+
+	},
+
 	// submit the new item
 	setItem: function ( e, list ) {
 		// check to see if the user pressed 'enter', 'return',, 'esc', or focued out of the input.
@@ -384,46 +413,31 @@ $( document ).ready ( function () {
 	////////////////////////////
 
 	// when touching a list item...
-	$( '.list-view' ).on( 'touchstart mousedown', '.list [class*="item-"]', function ( e ) {
-
+	$( '.list-view' ).on( 'touchstart', '.list [class*="item-"]', function ( e ) {
 		// capture the coordinates of the first touch
-		syncr.touchDown = e.clientX;
+		syncr.touchDown = e.originalEvent.touches[0].pageX;
+
+	});
+
+	// when swiping an item
+	$( '.list-view' ).on( 'touchmove', '.list [class*="item-"]', function ( e ) {
+		// get the last coordinates of the touch
+		e.preventDefault();
+		syncr.touchUp = e.originalEvent.touches[0].pageX;
+	});
 		
-		// when finished touching...
-		$( '.list-view' ).on( 'touchend mouseup', '.list [class*="item-"]', function ( e ) {
-			// capture the coordinates of the first touch
-			syncr.touchUp = e.clientX;
-			syncr.touchDifference = Math.abs( syncr.touchDown - syncr.touchUp );
+	// when finished touching...
+	$( '.list-view' ).on( 'touchend', '.list [class*="item-"]', function ( e ) {
 
-			// capture the list item the user is touching
-			syncr.currentList = '#' + $( this ).parent().attr( 'id' );
-			syncr.currentItem = '#' + $( this ).parent().attr( 'id' ) + ' .' + $( this ).attr( 'class' );
+		// get the difference in coordinates
+		syncr.touchDifference = Math.abs( syncr.touchDown - syncr.touchUp );
 
-			// check to see if the touch is a tap (click) or a swipe (drag), and what direction (if any) it's going
-			if ( syncr.touchDown > syncr.touchUp && syncr.touchDifference >= 10 ) {
-				// user is swiping to the right
-				syncr.touchDirection = 'right';
-				syncr.touchType = 'swipe';
+		// capture the list item the user is touching
+		syncr.currentList = '#' + $( this ).parent().attr( 'id' );
+		syncr.currentItem = '#' + $( this ).parent().attr( 'id' ) + ' .' + $( this ).attr( 'class' );
 
-				syncr.openModal( 'delete-item-modal' );
-
-			} else if ( syncr.touchDown < syncr.touchUp && syncr.touchDifference >= 10 ) {
-				// user is swiping to the left
-				syncr.touchDirection = 'left';
-				syncr.touchType = 'swipe';
-
-				console.log( 'swipe left' );
-
-			} else {
-				// user is tapping, so edit the item
-				syncr.touchDirection = 'none';
-				syncr.touchType = 'tap';
-
-				// edit the list item
-				syncr.editItem( syncr.currentItem );
-			}
-
-		});
+		// figure out what to do based on the type of touch
+		syncr.itemTouch();
 
 	});
 
