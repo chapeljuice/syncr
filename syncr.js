@@ -412,6 +412,30 @@ $( document ).ready ( function () {
 	//  item-specific events  //
 	////////////////////////////
 
+	// when mouse clicking a list item. (mousedown)..
+	$( '.list-view' ).on( 'mousedown', '.list [class*="item-"]', function ( e ) {
+		// capture the coordinates of the first touch
+		syncr.touchDown = e.pageX;
+
+	});
+
+	// when mouse clicking an item (mouseup)...
+	$( '.list-view' ).on( 'mouseup', '.list [class*="item-"]', function ( e ) {
+		// get the last coordinates of the touch
+		e.preventDefault();
+		syncr.touchUp = e.pageX;
+
+		// get the difference in coordinates
+		syncr.touchDifference = Math.abs( syncr.touchDown - syncr.touchUp );
+
+		// capture the list item the user is touching
+		syncr.currentList = '#' + $( this ).parent().attr( 'id' );
+		syncr.currentItem = '#' + $( this ).parent().attr( 'id' ) + ' .' + $( this ).attr( 'class' );
+
+		// figure out what to do based on the type of touch
+		syncr.itemTouch();
+	});
+
 	// when touching a list item...
 	$( '.list-view' ).on( 'touchstart', '.list [class*="item-"]', function ( e ) {
 		// capture the coordinates of the first touch
@@ -419,7 +443,7 @@ $( document ).ready ( function () {
 
 	});
 
-	// when swiping an item
+	// when swiping an item...
 	$( '.list-view' ).on( 'touchmove', '.list [class*="item-"]', function ( e ) {
 		// get the last coordinates of the touch
 		e.preventDefault();

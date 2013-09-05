@@ -9,7 +9,7 @@
 * Change the list you're viewing
 * Ability to rename, clear, and delete lists.
 * Add, edit, and delete items.
-* __JUST ADDED__: Swipe an item from right to left to delete it.
+* __JUST ADDED__: Swipe (touch or mouse) an item from right to left to delete it.
 
 
 #### To-do's ####
