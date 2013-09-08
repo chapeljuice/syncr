@@ -109,14 +109,24 @@ var syncr = {
 	// clear all the items of the current list
 	clearList: function () {
 
-			// clear out all their list items
-			$( '.list.active' )
-				.html( '<li class="add-new-item">+ New item</li>' );
+		// clear out all their list items
+		$( '.list.active' )
+			.html( '<li class="add-new-item">+ New item</li>' );
 
-			syncr.closeModal();
-			// and close the menu
-			syncr.closeMenu();
+		syncr.closeModal();
+		// and close the menu
+		syncr.closeMenu();
 
+	},
+
+	// clears completed items from list
+	clearCompletedItems: function () {
+		$( '.completed' )
+			.remove();
+
+		syncr.closeModal();
+		// and close the menu
+		syncr.closeMenu();
 	},
 
 	// create a new list
@@ -277,11 +287,22 @@ var syncr = {
 			syncr.touchDirection = 'right';
 			syncr.touchType = 'swipe';
 
-			$(syncr.currentItem)
-				.css({
-					'opacity': '.6',
-					'text-decoration': 'line-through'
-				});
+			if ( $( syncr.currentItem ).hasClass() === 'completed' ) {
+				$( syncr.currentItem )
+					.css({
+						'opacity': '1',
+						'text-decoration': 'none'
+					})
+					.removeClass( 'completed' );
+			} else {
+				$( syncr.currentItem )
+					.css({
+						'opacity': '.6',
+						'text-decoration': 'line-through'
+					})
+					.addClass( 'completed' );
+			}
+
 
 		} else if ( syncr.touchDown < syncr.touchUp && syncr.touchDifference >= 10 ) {
 			// user is swiping to the left
@@ -509,6 +530,10 @@ $( document ).ready ( function () {
 
 	$( '.clear-button' ).on( 'click', function () {
 		syncr.clearList();
+	});
+
+	$( '.clear-completed-button' ).on( 'click', function () {
+		syncr.clearCompletedItems();
 	});
 
 	$( '.delete-list-button' ).on( 'click', function () {
