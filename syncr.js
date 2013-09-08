@@ -272,19 +272,23 @@ var syncr = {
 	itemTouch: function () {
 
 		// check to see if the touch is a tap (click) or a swipe (drag), and what direction (if any) it's going
-		if ( syncr.touchDown > syncr.touchUp && syncr.touchDifference >= 10 ) {
+		if ( syncr.touchDown > syncr.touchUp && syncr.touchDifference >= 5 ) {
 			// user is swiping to the right
 			syncr.touchDirection = 'right';
 			syncr.touchType = 'swipe';
 
-			syncr.openModal( 'delete-item-modal' );
+			$(syncr.currentItem)
+				.css({
+					'opacity': '.6',
+					'text-decoration': 'line-through'
+				});
 
 		} else if ( syncr.touchDown < syncr.touchUp && syncr.touchDifference >= 10 ) {
 			// user is swiping to the left
 			syncr.touchDirection = 'left';
 			syncr.touchType = 'swipe';
 
-			console.log( 'swipe left' );
+			syncr.openModal( 'delete-item-modal' );
 
 		} else {
 			// user is tapping, so edit the item
@@ -448,6 +452,7 @@ $( document ).ready ( function () {
 		// get the last coordinates of the touch
 		e.preventDefault();
 		syncr.touchUp = e.originalEvent.touches[0].pageX;
+
 	});
 		
 	// when finished touching...
