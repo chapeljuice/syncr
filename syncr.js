@@ -447,7 +447,7 @@ $( document ).ready ( function () {
 
 		// capture the list item the user is touching
 		syncr.currentList = '#' + $( this ).parent().attr( 'id' );
-		syncr.currentItem = $( this ).attr( 'class' ).split(/[\s.]+/);
+		syncr.currentItem = '#' + $( this ).parent().attr( 'id' ) + ' .' + $( this ).attr( 'class' ).split(/[\s.]+/);
 
 		// figure out what to do based on the type of touch
 		syncr.itemTouch();
@@ -476,7 +476,7 @@ $( document ).ready ( function () {
 
 		// capture the list item the user is touching
 		syncr.currentList = '#' + $( this ).parent().attr( 'id' );
-		syncr.currentItem = $( this ).attr( 'class' ).split(/[\s.]+/);
+		syncr.currentItem = '#' + $( this ).parent().attr( 'id' ) + ' .' + $( this ).attr( 'class' ).split(/[\s.]+/);
 
 		// figure out what to do based on the type of touch
 		syncr.itemTouch();
