@@ -287,19 +287,11 @@ var syncr = {
 			syncr.touchDirection = 'right';
 			syncr.touchType = 'swipe';
 
-			if ( $( syncr.currentItem ).hasClass() === 'completed' ) {
-				$( syncr.currentItem )
-					.css({
-						'opacity': '1',
-						'text-decoration': 'none'
-					})
+			if ( $( '.' + syncr.currentItem ).hasClass( 'completed' ) ) {
+				$( '.' + syncr.currentItem )
 					.removeClass( 'completed' );
 			} else {
-				$( syncr.currentItem )
-					.css({
-						'opacity': '.6',
-						'text-decoration': 'line-through'
-					})
+				$( '.' + syncr.currentItem )
 					.addClass( 'completed' );
 			}
 
@@ -455,7 +447,7 @@ $( document ).ready ( function () {
 
 		// capture the list item the user is touching
 		syncr.currentList = '#' + $( this ).parent().attr( 'id' );
-		syncr.currentItem = '#' + $( this ).parent().attr( 'id' ) + ' .' + $( this ).attr( 'class' );
+		syncr.currentItem = $( this ).attr( 'class' ).split(/[\s.]+/);
 
 		// figure out what to do based on the type of touch
 		syncr.itemTouch();
@@ -484,7 +476,7 @@ $( document ).ready ( function () {
 
 		// capture the list item the user is touching
 		syncr.currentList = '#' + $( this ).parent().attr( 'id' );
-		syncr.currentItem = '#' + $( this ).parent().attr( 'id' ) + ' .' + $( this ).attr( 'class' );
+		syncr.currentItem = $( this ).attr( 'class' ).split(/[\s.]+/);
 
 		// figure out what to do based on the type of touch
 		syncr.itemTouch();
