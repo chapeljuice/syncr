@@ -155,6 +155,11 @@ li.syncr-logo {
 		background: #f2503f;
 	}
 
+.completed {
+	opacity: .6;
+	text-decoration: line-through;
+}
+
 .list li:nth-of-type(odd) {
 	background: #3498db;
 }
