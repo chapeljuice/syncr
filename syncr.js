@@ -287,11 +287,11 @@ var syncr = {
 			syncr.touchDirection = 'right';
 			syncr.touchType = 'swipe';
 
-			if ( $( '.' + syncr.currentItem ).hasClass( 'completed' ) ) {
-				$( '.' + syncr.currentItem )
+			if ( $( syncr.currentItem ).hasClass( 'completed' ) ) {
+				$( syncr.currentItem )
 					.removeClass( 'completed' );
 			} else {
-				$( '.' + syncr.currentItem )
+				$( syncr.currentItem )
 					.addClass( 'completed' );
 			}
 
