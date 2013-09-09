@@ -73,6 +73,16 @@ li {
 		border-top: 1px solid #666;
 	}
 
+	.menu-view li.off {
+		cursor: default;
+		opacity: .3;
+	}
+
+		.menu-view li.off:hover {
+			background: #444;
+			border-top: 1px solid #555;
+		}
+
 li.syncr-logo {
 	background: transparent;
 	box-shadow: none;
