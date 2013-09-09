@@ -104,6 +104,11 @@ var syncr = {
 		// hide the list info tip
 		$( '.list-info' )
 			.addClass( 'hide' );
+
+		// reactivate menu buttons that are available to open lists only
+		$( '.menu-view li.off' )
+			.removeClass( 'off' )
+			.addClass( 'on' );
 	},
 
 	// clear all the items of the current list
@@ -211,6 +216,11 @@ var syncr = {
 		// show the list info tip
 		$( '.list-info' )
 			.removeClass( 'hide' );
+
+		// inactivate the buttons that aren't applicable to 'all lists'
+		$( '.menu-view li.on' )
+			.removeClass( 'on' )
+			.addClass( 'off' );
 
 		// hide the items from the list the user was just viewing
 		$( '.list' )
@@ -399,18 +409,18 @@ $( document ).ready ( function () {
 	});
 
 	// rename the current list
-	$( '#renameList' ).on( 'click', function () {
+	$( '.menu-view' ).on( 'click', '#renameList.on', function () {
 		syncr.openModal( 'rename-modal' );
 		$( '#renameInput' ).focus();
 	});
 
 	// clear all items of the current list
-	$( '#clearList' ).on( 'click', function () {
+	$( '.menu-view' ).on( 'click', '#clearList.on', function () {
 		syncr.openModal( 'clear-modal' );
 	});
 
 	// delete the current list
-	$( '#deleteList' ).on( 'click', function () {
+	$( '.menu-view' ).on( 'click', '#deleteList.on', function () {
 		syncr.openModal( 'delete-list-modal' );
 	});
 
