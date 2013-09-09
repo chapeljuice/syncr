@@ -10,7 +10,7 @@
 * Ability to rename, clear, and delete lists.
 * Add, edit, and delete items.
 * Swipe (touch or mouse) an item from left to right to delete it.
-* __JUST ADDED__: Swipe (touch or mouse) an item from right to left to check it off. Support for clearing checke off items also added.
+* __JUST ADDED__: Swipe (touch or mouse) an item from right to left to check it off, and once again to un-check it. Support for clearing checked off items also added.
 
 
 #### To-do's ####
