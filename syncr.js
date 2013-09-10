@@ -157,6 +157,24 @@ var syncr = {
 			'</ol>' )
 			.insertBefore( '.close-menu' );
 
+		
+		$( '#pickList-' + syncr.newListNumber )
+			.addClass( 'active' )
+			.siblings().addClass( 'hide' );
+
+		$( '.created-lists' )
+			.addClass( 'closed' )
+			.removeClass( 'opened' );
+
+		// hide the list info tip
+		$( '.list-info' )
+			.addClass( 'hide' );
+
+		// reactivate menu buttons that are available to open lists only
+		$( '.menu-view li.off' )
+			.removeClass( 'off' )
+			.addClass( 'on' );
+
 		syncr.closeModal();
 		syncr.closeMenu();
 
