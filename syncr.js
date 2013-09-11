@@ -10,23 +10,31 @@ var syncr = {
 
 	// contain the number of the new list being made
 	newListNumber: '',
+
 	// contains the name of the new list
 	newListName: '',
+
 	// contains the number of lists in the app
 	numberOfLists: '',
+
 	// get the number of items in the current list
 	numberOfListItems: '',
+
 	// current list the user is interacting with
 	currentList: '',
+
 	// current item the user is interacting with
 	currentItem: '',
 	currentItemName: '',
+
 	// store touch coordinates & info
 	touchDown: '',
 	touchUp: '',
 	touchDifference: '',
 	touchType: '',
 	touchDirection: '',
+
+
 
 	//////////////////////////////////
 	//  init and general functions  //
@@ -46,6 +54,8 @@ var syncr = {
 		syncr.alignFooter();
 	},
 
+
+
 	// align footer nicely
 	alignFooter: function () {
 		var menuWidth = $( '.menu-view' ).width();
@@ -58,27 +68,41 @@ var syncr = {
 	},
 
 
+
+
 	///////////////////////////
 	//  menu-view functions  //
 	///////////////////////////
 
 	// open the menu
 	openMenu: function () {
+
 		window.location.hash = '#menuView';
+
 		$( '.menu-icon a' )
 			.toggleClass( 'closed opened' );
+
 		$( '.close-menu' )
 			.removeClass( 'hide' );
+
 	},
+
+
 
 	// close the menu
 	closeMenu: function () {
+
 		window.location.hash = '#';
+
 		$( '.menu-icon a' )
 			.toggleClass( 'closed opened' );
+
 		$( '.close-menu' )
 			.addClass( 'hide' );
+
 	},
+
+
 
 
 	///////////////////////////////
@@ -92,6 +116,7 @@ var syncr = {
 		$( '#pickList-' + newList )
 			.addClass( 'active' )
 			.siblings().addClass( 'hide' );
+
 		$( '.created-lists' )
 			.addClass( 'closed' )
 			.removeClass( 'opened' );
@@ -111,6 +136,8 @@ var syncr = {
 			.addClass( 'on' );
 	},
 
+
+
 	// clear all the items of the current list
 	clearList: function () {
 
@@ -119,20 +146,28 @@ var syncr = {
 			.html( '<li class="add-new-item">+ New item</li>' );
 
 		syncr.closeModal();
+
 		// and close the menu
 		syncr.closeMenu();
 
 	},
 
+
+
 	// clears completed items from list
 	clearCompletedItems: function () {
+
 		$( '.completed' )
 			.remove();
 
 		syncr.closeModal();
+
 		// and close the menu
 		syncr.closeMenu();
+
 	},
+
+
 
 	// create a new list
 	createList: function () {
@@ -141,9 +176,13 @@ var syncr = {
 		syncr.newListNumber = $( '.list' ).length + 1;
 
 		if ( $( '#createInput' ).val() !== '' ) {
+
 			syncr.newListName = $( '#createInput' ).val();
+
 		} else {
+
 			syncr.newListName = 'List #' + syncr.newListNumber;
+
 		}
 
 		$( '.active' )
@@ -157,7 +196,7 @@ var syncr = {
 			'</ol>' )
 			.insertBefore( '.close-menu' );
 
-		
+
 		$( '#pickList-' + syncr.newListNumber )
 			.addClass( 'active' )
 			.siblings().addClass( 'hide' );
@@ -176,9 +215,12 @@ var syncr = {
 			.addClass( 'on' );
 
 		syncr.closeModal();
+
 		syncr.closeMenu();
 
 	},
+
+
 
 	// delete the current list
 	deleteList: function () {
@@ -200,6 +242,7 @@ var syncr = {
 			$( '.created-lists li:first-child' )
 				.addClass( 'active' )
 				.removeClass( 'hide' );
+
 			$( '.list' )
 				.first()
 				.addClass( 'active' )
@@ -210,6 +253,7 @@ var syncr = {
 			// if there are not, make a new default one
 			$( '.created-lists ol' )
 				.html( '<li class="active" id="pickList-1">List 1</li>' );
+
 			$( '<ol class="list active" id="list-1">' +
 					'<li class="add-new-item">+ New item</li>' +
 				'</ol>' )
@@ -218,9 +262,12 @@ var syncr = {
 		}
 
 		syncr.closeModal();
+
 		syncr.closeMenu();
 
 	},
+
+
 
 	// opens the list of lists
 	openLists: function () {
@@ -229,6 +276,7 @@ var syncr = {
 		$( '.created-lists' )
 			.addClass( 'opened' )
 			.removeClass( 'closed' );
+
 		$( '.created-lists li' ).removeClass( 'hide active' );
 
 		// show the list info tip
@@ -247,26 +295,35 @@ var syncr = {
 
 		// when the user selects a list to open...
 		$( 'header' ).on( 'click', '.opened li', function () {
+
 			// get the list the user clicks on
 			syncr.currentList = $( this ).attr( 'id' ).substr( 9 );
+
 			// and send it to the 'changeLists()' function
 			syncr.changeLists( syncr.currentList );
+
 		});
 
 	},
+
+
 
 	// rename the current list
 	renameList: function () {
 
 		var renameListName = $( '#renameInput' ).val();
+
 		if ( renameListName !== '' ) {
 			$( '.created-lists .active' ).text( renameListName );
 		}
 
 		syncr.closeModal();
+
 		syncr.closeMenu();
 
 	},
+
+
 
 
 	///////////////////////////////
@@ -283,6 +340,8 @@ var syncr = {
 			.insertBefore( '#' + currentList + ' li:last' );
 	},
 
+
+
 	// presents user with a delete confirmation
 	deleteItem: function () {
 
@@ -296,9 +355,12 @@ var syncr = {
 			.remove();
 
 		syncr.closeModal();
+
 		syncr.closeMenu();
 		
 	},
+
+
 
 	// edit existing item
 	editItem: function ( currentItem ) {
@@ -306,25 +368,33 @@ var syncr = {
 			.replaceWith( '<li class="item-editing ' +  $( currentItem ).attr( 'class' ) + '"><input class="editableItem" type="text" value="' + $( currentItem ).text() + '" autofocus /></li>' );
 	},
 
+
+
 	// item is being touched, figure out what to do with it
 	itemTouch: function () {
 
 		// check to see if the touch is a tap (click) or a swipe (drag), and what direction (if any) it's going
 		if ( syncr.touchDown > syncr.touchUp && syncr.touchDifference >= 5 ) {
+
 			// user is swiping to the right
 			syncr.touchDirection = 'right';
 			syncr.touchType = 'swipe';
 
 			if ( $( syncr.currentItem ).hasClass( 'completed' ) ) {
+
 				$( syncr.currentItem )
 					.removeClass( 'completed' );
+
 			} else {
+
 				$( syncr.currentItem )
 					.addClass( 'completed' );
+
 			}
 
 
 		} else if ( syncr.touchDown < syncr.touchUp && syncr.touchDifference >= 10 ) {
+
 			// user is swiping to the left
 			syncr.touchDirection = 'left';
 			syncr.touchType = 'swipe';
@@ -332,18 +402,23 @@ var syncr = {
 			syncr.openModal( 'delete-item-modal' );
 
 		} else {
+
 			// user is tapping, so edit the item
 			syncr.touchDirection = 'none';
 			syncr.touchType = 'tap';
 
 			// edit the list item
 			syncr.editItem( syncr.currentItem );
+
 		}
 
 	},
 
+
+
 	// submit the new item
 	setItem: function ( e, list ) {
+
 		// check to see if the user pressed 'enter', 'return',, 'esc', or focued out of the input.
 		if ( e.which === 13 || e.keyCode === 27 || e.type === 'blur' || e.type === 'focusout' ) {
 
@@ -370,6 +445,8 @@ var syncr = {
 	},
 
 
+
+
 	////////////////////////////////
 	//  modal-specific functions  //
 	////////////////////////////////
@@ -381,11 +458,15 @@ var syncr = {
 			.removeClass( 'hide' );
 
 		if ( modalClass === 'create-modal' && type === 'welcome-text' ) {
+
 			$( '.welcome-text' )
 				.removeClass( 'hide' );
+
 		} else if ( modalClass === 'create-modal' && ( type !== 'welcome-text' || !type ) ) {
+
 			$( '.create-label' )
 				.removeClass( 'hide' );
+
 		}
 
 		syncr.closeMenu();
@@ -393,12 +474,17 @@ var syncr = {
 
 	// close modal windows
 	closeModal: function () {
+
 		$( '.modal, div[class*="-modal"], .welcome-text, .create-label' )
 			.addClass( 'hide' );
+
 		$( 'input' ).val( '' );
+
 	}
 
 };
+
+
 
 
 $( document ).ready ( function () {
@@ -406,41 +492,57 @@ $( document ).ready ( function () {
 	// warm it up chris.
 	syncr.initialize();
 
+
 	////////////////////////
 	//  menu-view events  //
 	////////////////////////
 
 	// open the menu when clicking on the menu icon
 	$( '.menu-icon a' ).on( 'click', function () {
+
 		syncr.openMenu();
+
 	});
 
 	// close the menu when clicking on the list view
 	$( '.close-menu' ).on( 'click', function () {
+
 		syncr.closeMenu();
+
 	});
 
 	// when clicking on the create button or inputs...
 	$( '#createList' ).on( 'click', function () {
+
 		syncr.openModal( 'create-modal' );
+
 		$( '#createInput' ).focus();
+
 	});
 
 	// rename the current list
 	$( '.menu-view' ).on( 'click', '#renameList.on', function () {
+
 		syncr.openModal( 'rename-modal' );
+
 		$( '#renameInput' ).focus();
+
 	});
 
 	// clear all items of the current list
 	$( '.menu-view' ).on( 'click', '#clearList.on', function () {
+
 		syncr.openModal( 'clear-modal' );
+
 	});
 
 	// delete the current list
 	$( '.menu-view' ).on( 'click', '#deleteList.on', function () {
+
 		syncr.openModal( 'delete-list-modal' );
+
 	});
+
 
 
 	////////////////////////////
@@ -449,8 +551,12 @@ $( document ).ready ( function () {
 
 	// open up the 'list of lists' when the active list title is clicked
 	$( 'header' ).on( 'click', '.closed li.active', function () {
+
 		syncr.openLists();
+
 	});
+
+
 
 
 	////////////////////////////
@@ -459,15 +565,20 @@ $( document ).ready ( function () {
 
 	// when mouse clicking a list item. (mousedown)..
 	$( '.list-view' ).on( 'mousedown', '.list [class*="item-"]', function ( e ) {
+
 		// capture the coordinates of the first touch
 		syncr.touchDown = e.pageX;
 
 	});
 
+
+
 	// when mouse clicking an item (mouseup)...
 	$( '.list-view' ).on( 'mouseup', '.list [class*="item-"]', function ( e ) {
+
 		// get the last coordinates of the touch
 		e.preventDefault();
+
 		syncr.touchUp = e.pageX;
 
 		// get the difference in coordinates
@@ -479,22 +590,32 @@ $( document ).ready ( function () {
 
 		// figure out what to do based on the type of touch
 		syncr.itemTouch();
+
 	});
+
+
 
 	// when touching a list item...
 	$( '.list-view' ).on( 'touchstart', '.list [class*="item-"]', function ( e ) {
+
 		// capture the coordinates of the first touch
+		e.preventDefault();
 		syncr.touchDown = e.originalEvent.touches[0].pageX;
 
 	});
 
+
+
 	// when swiping an item...
 	$( '.list-view' ).on( 'touchmove', '.list [class*="item-"]', function ( e ) {
+
 		// get the last coordinates of the touch
 		e.preventDefault();
 		syncr.touchUp = e.originalEvent.touches[0].pageX;
 
 	});
+
+
 		
 	// when finished touching...
 	$( '.list-view' ).on( 'touchend', '.list [class*="item-"]', function ( e ) {
@@ -511,17 +632,27 @@ $( document ).ready ( function () {
 
 	});
 
+
+
 	// add a new item when clicking on the 'new item' item
 	$( '.list-view' ).on( 'click', '.list.active .add-new-item', function () {
+
 		syncr.currentList = $( this ).parent().attr( 'id' );
 		syncr.addItem( syncr.currentList );
+
 	});
+
+
 
 	// on keydown or blur of an input field...
 	$( '.list-view' ).on( 'keydown blur', '.list input', function ( e ) {
+
 		syncr.currentList = $( this ).parents( '.list' ).attr( 'id' );
 		syncr.setItem( e, syncr.currentList );
+
 	});
+
+
 
 
 	/////////////////////////////
@@ -529,47 +660,90 @@ $( document ).ready ( function () {
 	/////////////////////////////
 
 	$( '#createInput' ).on( 'keydown', function ( e ) {
+
 		if ( e.which === 13 || e.which === 27 ) {
+
 			syncr.createList();
+
 		}
+
 	});
+
+
 
 	$( '.create-button' ).on( 'click', function () {
+
 		syncr.createList();
+
 	});
+
+
 
 	$( '#renameInput' ).on( 'keydown', function ( e ) {
+
 		if ( e.which === 13 || e.which === 27 ) {
+
 			syncr.renameList();
+
 		}
+
 	});
+
+
 
 	$( '.rename-button' ).on( 'click', function () {
+
 		syncr.renameList();
+
 	});
+
+
 
 	$( '.clear-button' ).on( 'click', function () {
+		
 		syncr.clearList();
+
 	});
+
+
 
 	$( '.clear-completed-button' ).on( 'click', function () {
+
 		syncr.clearCompletedItems();
+
 	});
+
+
 
 	$( '.delete-list-button' ).on( 'click', function () {
+
 		syncr.deleteList();
+
 	});
+
+
 
 	$( '.delete-item-button' ).on( 'click', function () {
+
 		syncr.deleteItem();
+
 	});
 
+
+
 	$( '.nevermind-button' ).on( 'click', function () {
+
 		syncr.closeModal();
+
 	});
+
 
 	// if the window is resized, align the footer
 	$( window ).resize( function () {
+
 		syncr.alignFooter();
+
 	});
+
+
 });
