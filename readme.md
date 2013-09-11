@@ -8,12 +8,14 @@
 * Create lists
 * Change the list you're viewing
 * Ability to rename, clear, and delete lists.
-* Add, edit, and delete items.
+* Add, edit, and delete items, as well as check off completed items.
 * Swipe (touch or mouse) an item from left to right to delete it.
-* __JUST ADDED__: Swipe (touch or mouse) an item from right to left to check it off, and once again to un-check it. Support for clearing checked off items also added.
+* Swipe (touch or mouse) an item from right to left to check it off, and once again to un-check it.
 
+#### Currently in the works: ####
+* Removing jQuery and using only vanilla JS. This is for performance, as well as because I've relied on jQuery for too long...and it's time to cut that cord. :)
 
-#### To-do's ####
+#### To-do's: ####
 * More / better touch support and new touch actions coming soon.
 * Ability to save data and sync across all users. This is the hardest part of the whole project, but the entire reason I'm making this app. I'm gonna have to learn how to do it...no clue at the moment though. :)
 * More to come. Have any suggestions? Let me hear them! Email me at <a href="mailto:chaprtc@gmail.com?subject=Syncr%20Suggestions">chaprtc@gmail.com</a>
