@@ -34,6 +34,32 @@ var syncr = {
 	touchType: '',
 	touchDirection: '',
 
+	selector: {
+
+		// menu-view elements
+		menuView: document.getElementById( 'menuView' ),
+
+		createInput: document.getElementById( 'createInput' ),
+		createButton: document.getElementsByClassName( 'create-button' ),
+
+		renameList: document.getElementById( 'renameList' ),
+		renameInput: document.getElementById( 'renameInput' ),
+
+		clearList: document.getElementById( 'clearList' ),
+		clearButton: document.getElementsByClassName( 'clear-button' ),
+		clearCompletedButton: document.getElementsByClassName( 'clear-completed-button' ),
+
+		deleteList: document.getElementById( 'deleteList' ),
+		deleteButton: document.getElementsByClassName( 'delete-item--button' ),
+
+		// list elements
+
+
+		// item elements
+		allLists: document.querySelectorAll( '.created-lists li' ),
+
+	},
+
 
 
 	//////////////////////////////////
@@ -42,7 +68,7 @@ var syncr = {
 
 	initialize: function () {
 
-		syncr.numberOfLists = $( '.created-lists li' ).length;
+		syncr.numberOfLists = syncr.selector.allLists.length;
 
 		// if there aren't any lists, help the user out
 		if ( syncr.numberOfLists === 0 ) {
@@ -233,7 +259,7 @@ var syncr = {
 		$( '.created-lists .active' )
 			.remove();
 
-		syncr.numberOfLists = $( '.created-lists li' ).length;
+		syncr.numberOfLists = syncr.selector.allLists.length;
 
 		// check to see if there are any lists left over
 		if ( syncr.numberOfLists > 0 ) {
@@ -277,7 +303,7 @@ var syncr = {
 			.addClass( 'opened' )
 			.removeClass( 'closed' );
 
-		$( '.created-lists li' ).removeClass( 'hide active' );
+		syncr.selector.allLists.classList.remove( 'hide', 'active' );
 
 		// show the list info tip
 		$( '.list-info' )
@@ -700,7 +726,7 @@ $( document ).ready ( function () {
 
 
 	$( '.clear-button' ).on( 'click', function () {
-		
+
 		syncr.clearList();
 
 	});
