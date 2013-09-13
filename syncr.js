@@ -307,7 +307,8 @@ var syncr = {
 			.addClass( 'opened' )
 			.removeClass( 'closed' );
 
-		syncr.selector.allLists.classList.remove( 'hide', 'active' );
+		$( '.created-lists li' )
+			.removeClass( 'hide active' );
 
 		// show the list info tip
 		$( '.list-info' )
@@ -387,7 +388,7 @@ var syncr = {
 		syncr.closeModal();
 
 		syncr.closeMenu();
-		
+
 	},
 
 
