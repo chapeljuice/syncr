@@ -40,23 +40,30 @@ var syncr = {
 		menuView: document.getElementById( 'menuView' ),
 
 		createInput: document.getElementById( 'createInput' ),
-		createButton: document.getElementsByClassName( 'create-button' ),
+		createButton: document.getElementsByClassName( 'create-button' )[0],
 
 		renameList: document.getElementById( 'renameList' ),
 		renameInput: document.getElementById( 'renameInput' ),
 
 		clearList: document.getElementById( 'clearList' ),
-		clearButton: document.getElementsByClassName( 'clear-button' ),
-		clearCompletedButton: document.getElementsByClassName( 'clear-completed-button' ),
+		clearButton: document.getElementsByClassName( 'clear-button' )[0],
+		clearCompletedButton: document.getElementsByClassName( 'clear-completed-button' )[0],
 
 		deleteList: document.getElementById( 'deleteList' ),
-		deleteButton: document.getElementsByClassName( 'delete-item--button' ),
+		deleteButton: document.getElementsByClassName( 'delete-item--button' )[0],
 
 		// list elements
 
 
 		// item elements
 		allLists: document.querySelectorAll( '.created-lists li' ),
+
+
+		// other elements
+		menuIcon: document.getElementsByClassName( 'menu-icon' )[0],
+		menuIconAnchor: document.querySelectorAll( '.menu-icon a' )[0],
+		footer: document.getElementsByClassName( 'footer' )[0],
+		closeMenu: document.getElementsByClassName( 'close-menu' )[0]
 
 	},
 
@@ -74,7 +81,7 @@ var syncr = {
 		if ( syncr.numberOfLists === 0 ) {
 
 			syncr.openModal( 'create-modal', 'welcome-text' );
-			$( '#createInput' ).focus();
+			syncr.selector.createInput.focus();
 		}
 
 		syncr.alignFooter();
@@ -84,13 +91,12 @@ var syncr = {
 
 	// align footer nicely
 	alignFooter: function () {
-		var menuWidth = $( '.menu-view' ).width();
-		var footerWidth = $( '.footer' ).width();
+		var menuWidth = syncr.selector.menuView.offsetWidth;
+		var footerWidth = syncr.selector.footer.offsetWidth;
 
-		$( '.footer' )
-			.css({
-				'left': ( menuWidth / 2 ) - ( footerWidth / 2 ) + 'px'
-			});
+		console.log( menuWidth + ' + ' + footerWidth );
+
+		syncr.selector.footer.style.left = ( menuWidth / 2 ) - ( footerWidth / 2 ) + 'px';
 	},
 
 
@@ -105,11 +111,10 @@ var syncr = {
 
 		window.location.hash = '#menuView';
 
-		$( '.menu-icon a' )
-			.toggleClass( 'closed opened' );
+		syncr.selector.menuIconAnchor.classList.toggle( 'closed' );
+		syncr.selector.menuIconAnchor.classList.toggle( 'opened' );
 
-		$( '.close-menu' )
-			.removeClass( 'hide' );
+		syncr.selector.closeMenu.classList.remove( 'hide' );
 
 	},
 
@@ -120,11 +125,10 @@ var syncr = {
 
 		window.location.hash = '#';
 
-		$( '.menu-icon a' )
-			.toggleClass( 'closed opened' );
+		syncr.selector.menuIconAnchor.classList.toggle( 'closed' );
+		syncr.selector.menuIconAnchor.classList.toggle( 'opened' );
 
-		$( '.close-menu' )
-			.addClass( 'hide' );
+		syncr.selector.closeMenu.classList.add( 'hide' );
 
 	},
 
@@ -611,8 +615,8 @@ $( document ).ready ( function () {
 		syncr.touchDifference = Math.abs( syncr.touchDown - syncr.touchUp );
 
 		// capture the list item the user is touching
-		syncr.currentList = '#' + $( this ).parent().attr( 'id' );
-		syncr.currentItem = '#' + $( this ).parent().attr( 'id' ) + ' .' + $( this ).attr( 'class' ).split(/[\s.]+/);
+		syncr.currentList = '#' + this.parent().attr( 'id' );
+		syncr.currentItem = '#' + this.parent().attr( 'id' ) + ' .' + this.attr( 'class' ).split(/[\s.]+/);
 
 		// figure out what to do based on the type of touch
 		syncr.itemTouch();
@@ -642,7 +646,7 @@ $( document ).ready ( function () {
 	});
 
 
-		
+
 	// when finished touching...
 	$( '.list-view' ).on( 'touchend', '.list [class*="item-"]', function ( e ) {
 
