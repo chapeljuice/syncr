@@ -53,6 +53,7 @@ var syncr = {
 		deleteButton: document.getElementsByClassName( 'delete-item--button' )[0],
 
 		// list elements
+		lists: document.getElementsByClassName( 'list' ),
 
 
 		// item elements
@@ -93,8 +94,6 @@ var syncr = {
 	alignFooter: function () {
 		var menuWidth = syncr.selector.menuView.offsetWidth;
 		var footerWidth = syncr.selector.footer.offsetWidth;
-
-		console.log( menuWidth + ' + ' + footerWidth );
 
 		syncr.selector.footer.style.left = ( menuWidth / 2 ) - ( footerWidth / 2 ) + 'px';
 	},
@@ -203,7 +202,7 @@ var syncr = {
 	createList: function () {
 
 		// set var to be what number the new list will be
-		syncr.newListNumber = $( '.list' ).length + 1;
+		syncr.newListNumber = syncr.selector.lists.length + 1;
 
 		if ( $( '#createInput' ).val() !== '' ) {
 
