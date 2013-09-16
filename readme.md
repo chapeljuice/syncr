@@ -13,7 +13,7 @@
 * Swipe (touch or mouse) an item from right to left to check it off, and once again to un-check it.
 
 #### Currently in the works: ####
-* Removing jQuery and using only vanilla JS. This is for performance, as well as because I've relied on jQuery for too long...and it's time to cut that cord. :)
+* Removing jQuery and going with using only vanilla JS. This is for performance, as well as because I've relied on jQuery for too long...and it's time to cut that cord. :)
 
 #### To-do's: ####
 * More / better touch support and new touch actions coming soon.
