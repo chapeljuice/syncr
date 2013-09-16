@@ -204,9 +204,9 @@ var syncr = {
 		// set var to be what number the new list will be
 		syncr.newListNumber = syncr.selector.lists.length + 1;
 
-		if ( $( '#createInput' ).val() !== '' ) {
+		if ( syncr.selector.createInput.value !== '' ) {
 
-			syncr.newListName = $( '#createInput' ).val();
+			syncr.newListName = syncr.selector.createInput.value;
 
 		} else {
 
@@ -341,7 +341,7 @@ var syncr = {
 	// rename the current list
 	renameList: function () {
 
-		var renameListName = $( '#renameInput' ).val();
+		var renameListName = syncr.selector.renameInput.value;
 
 		if ( renameListName !== '' ) {
 			$( '.created-lists .active' ).text( renameListName );
