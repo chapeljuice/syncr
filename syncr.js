@@ -171,8 +171,7 @@ var syncr = {
 	clearList: function () {
 
 		// clear out all their list items
-		$( '.list.active' )
-			.html( '<li class="add-new-item">+ New item</li>' );
+		$( '.list.active' ).innerHTML = '<li class="add-new-item">+ New item</li>';
 
 		syncr.closeModal();
 
@@ -280,8 +279,7 @@ var syncr = {
 		} else {
 
 			// if there are not, make a new default one
-			$( '.created-lists ol' )
-				.html( '<li class="active" id="pickList-1">List 1</li>' );
+			$( '.created-lists ol' ).innerHTML = '<li class="active" id="pickList-1">List 1</li>';
 
 			$( '<ol class="list active" id="list-1">' +
 					'<li class="add-new-item">+ New item</li>' +
@@ -344,7 +342,7 @@ var syncr = {
 		var renameListName = syncr.selector.renameInput.value;
 
 		if ( renameListName !== '' ) {
-			$( '.created-lists .active' ).text( renameListName );
+			$( '.created-lists .active' ).textContent = renameListName;
 		}
 
 		syncr.closeModal();
@@ -376,9 +374,9 @@ var syncr = {
 	deleteItem: function () {
 
 		// store the current item in a variable in case the user decides to undo the delete
-		syncr.currentItemName = $( syncr.currentItem ).text();
+		syncr.currentItemName = syncr.currentItem.textContent;
 
-		$( '.item-name' ).text( '"' + syncr.currentItemName + '"' );
+		$( '.item-name' ).textContent = '"' + syncr.currentItemName + '"';
 
 		// show the delete / undo options
 		$( syncr.currentItem )
@@ -394,8 +392,7 @@ var syncr = {
 
 	// edit existing item
 	editItem: function ( currentItem ) {
-		$( currentItem )
-			.replaceWith( '<li class="item-editing ' +  $( currentItem ).attr( 'class' ) + '"><input class="editableItem" type="text" value="' + $( currentItem ).text() + '" autofocus /></li>' );
+		$( currentItem ).innerHTML = '<li class="item-editing ' +  $( currentItem ).attr( 'class' ) + '"><input class="editableItem" type="text" value="' + $( currentItem ).textContent + '" autofocus /></li>';
 	},
 
 
@@ -546,7 +543,7 @@ $( document ).ready ( function () {
 
 		syncr.openModal( 'create-modal' );
 
-		$( '#createInput' ).focus();
+		syncr.selector.createInput.focus();
 
 	});
 
@@ -555,7 +552,7 @@ $( document ).ready ( function () {
 
 		syncr.openModal( 'rename-modal' );
 
-		$( '#renameInput' ).focus();
+		syncr.selector.renameInput.focus();
 
 	});
 
