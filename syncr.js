@@ -513,10 +513,10 @@ var syncr = {
 
 
 
+// wait for the DOM to be loaded, then...
+document.addEventListener('DOMContentLoaded', function() {
 
-$( document ).ready ( function () {
-
-	// warm it up chris.
+	// warm it up, chris.
 	syncr.initialize();
 
 
