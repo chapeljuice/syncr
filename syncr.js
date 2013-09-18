@@ -64,7 +64,8 @@ var syncr = {
 		menuIcon: document.getElementsByClassName( 'menu-icon' )[0],
 		menuIconAnchor: document.querySelectorAll( '.menu-icon a' )[0],
 		footer: document.getElementsByClassName( 'footer' )[0],
-		closeMenu: document.getElementsByClassName( 'close-menu' )[0]
+		closeMenu: document.getElementsByClassName( 'close-menu' )[0],
+		inputs: document.getElementsByTagName( 'input' )
 
 	},
 
@@ -505,7 +506,9 @@ var syncr = {
 		$( '.modal, div[class*="-modal"], .welcome-text, .create-label' )
 			.addClass( 'hide' );
 
-		$( 'input' ).val( '' );
+		for ( var i = 0; i < syncr.selector.inputs.length; i++ ) {
+			syncr.selector.inputs[i].value = '';
+		}
 
 	}
 
