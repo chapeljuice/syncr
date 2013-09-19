@@ -191,6 +191,7 @@ li.syncr-logo {
 	box-shadow: none;
 	opacity: .5;
 }
+
 	.list li.add-new-item:hover {
 		background: #314559;
 	}
@@ -216,6 +217,7 @@ li.syncr-logo {
 li.item-editing {
 	padding: 0;
 }
+
 .editableItem {
 	background: transparent;
 	border: 0;
