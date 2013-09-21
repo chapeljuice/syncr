@@ -676,6 +676,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	// on keydown or blur of an input field...
 	$( '.list-view' ).on( 'keydown blur', '.list input', function ( e ) {
 
+		// make the new item in the list the user is currently viewing
 		syncr.currentList = $( this ).parents( '.list' ).attr( 'id' );
 		syncr.setItem( e, syncr.currentList );
 
