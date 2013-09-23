@@ -605,9 +605,10 @@ document.addEventListener('DOMContentLoaded', function() {
 	// when mouse clicking an item (mouseup)...
 	$( '.list-view' ).on( 'mouseup', '.list [class*="item-"]', function ( e ) {
 
-		// get the last coordinates of the touch
+		// prevent normal mouseup events from occurring
 		e.preventDefault();
 
+		// get the last coordinates of the touch
 		syncr.touchUp = e.pageX;
 
 		// get the difference in coordinates
@@ -627,8 +628,10 @@ document.addEventListener('DOMContentLoaded', function() {
 	// when touching a list item...
 	$( '.list-view' ).on( 'touchstart', '.list [class*="item-"]', function ( e ) {
 
-		// capture the coordinates of the first touch
+		// prevent normal touchstart events from occurring
 		e.preventDefault();
+
+		// capture the coordinates of the first touch
 		syncr.touchDown = e.originalEvent.touches[0].pageX;
 
 	});
@@ -638,8 +641,10 @@ document.addEventListener('DOMContentLoaded', function() {
 	// when swiping an item...
 	$( '.list-view' ).on( 'touchmove', '.list [class*="item-"]', function ( e ) {
 
-		// get the last coordinates of the touch
+		// prevent normal touchdown events from occurring
 		e.preventDefault();
+
+		// get the last coordinates of the touch
 		syncr.touchUp = e.originalEvent.touches[0].pageX;
 
 	});
@@ -681,7 +686,6 @@ document.addEventListener('DOMContentLoaded', function() {
 		syncr.setItem( e, syncr.currentList );
 
 	});
-
 
 
 
