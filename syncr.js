@@ -34,6 +34,7 @@ var syncr = {
 	touchType: '',
 	touchDirection: '',
 
+	// selectors go here:
 	selector: {
 
 		// menu-view elements
@@ -86,6 +87,7 @@ var syncr = {
 			syncr.selector.createInput.focus();
 		}
 
+		// align the footer element
 		syncr.alignFooter();
 	},
 
@@ -96,6 +98,7 @@ var syncr = {
 		var menuWidth = syncr.selector.menuView.offsetWidth;
 		var footerWidth = syncr.selector.footer.offsetWidth;
 
+		// set the 'left' property to be half the menu width minus the width of the footer
 		syncr.selector.footer.style.left = ( menuWidth / 2 ) - ( footerWidth / 2 ) + 'px';
 	},
 
@@ -174,6 +177,7 @@ var syncr = {
 		// clear out all their list items
 		$( '.list.active' ).innerHTML = '<li class="add-new-item">+ New item</li>';
 
+		// close the modal
 		syncr.closeModal();
 
 		// and close the menu
@@ -189,6 +193,7 @@ var syncr = {
 		$( '.completed' )
 			.remove();
 
+		// close the modal
 		syncr.closeModal();
 
 		// and close the menu
@@ -243,8 +248,10 @@ var syncr = {
 			.removeClass( 'off' )
 			.addClass( 'on' );
 
+		// close the modal
 		syncr.closeModal();
 
+		// close the menu
 		syncr.closeMenu();
 
 	},
@@ -289,8 +296,10 @@ var syncr = {
 
 		}
 
+		// close the modal
 		syncr.closeModal();
 
+		// close the menu
 		syncr.closeMenu();
 
 	},
@@ -346,8 +355,10 @@ var syncr = {
 			$( '.created-lists .active' ).textContent = renameListName;
 		}
 
+		// close the modal
 		syncr.closeModal();
 
+		// close the menu
 		syncr.closeMenu();
 
 	},
@@ -382,8 +393,10 @@ var syncr = {
 		$( syncr.currentItem )
 			.remove();
 
+		// close the modal
 		syncr.closeModal();
 
+		// close the menu
 		syncr.closeMenu();
 
 	},
@@ -529,6 +542,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	// open the menu when clicking on the menu icon
 	$( '.menu-icon a' ).on( 'click', function () {
 
+		// open the menu
 		syncr.openMenu();
 
 	});
@@ -536,6 +550,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	// close the menu when clicking on the list view
 	$( '.close-menu' ).on( 'click', function () {
 
+		// close the menu
 		syncr.closeMenu();
 
 	});
