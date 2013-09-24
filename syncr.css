@@ -12,7 +12,7 @@
 
 html,body,div,span,h1,h2,h3,h4,h5,h6,
 p,img,strong,ol,ul,li,form,label,article,aside,
-canvas,footer,header,hgroup,menu,nav,section {
+canvas,footer,header,hgroup,main,menu,nav,section {
   border: 0;
   list-style: none;
   margin: 0;
@@ -21,7 +21,7 @@ canvas,footer,header,hgroup,menu,nav,section {
 }
 
 article,aside,details,figcaption,figure,
-footer,header,hgroup,menu,nav,section {
+footer,header,hgroup,main,menu,nav,section {
   display: block;
 }
 
