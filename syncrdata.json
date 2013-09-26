@@ -1,0 +1,37 @@
+{
+    "list": [
+        {
+            "id": "1",
+            "title": "First list",
+            "items": [
+                "first item one",
+                "first item two",
+                "first item three",
+                "first item four",
+                "first item five"
+            ]
+        },
+        {
+            "id": "2",
+            "title": "Second list",
+            "items": [
+                "second item one",
+                "second item two",
+                "second item three",
+                "second item four",
+                "second item five"
+            ]
+        },
+        {
+            "id": "3",
+            "title": "Third list",
+            "items": [
+                "third item one",
+                "third item two",
+                "third item three",
+                "third item four",
+                "third item five"
+            ]
+        }
+    ]
+}
