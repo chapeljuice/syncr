@@ -56,10 +56,8 @@ var syncr = {
 		// list elements
 		lists: document.getElementsByClassName( 'list' ),
 
-
 		// item elements
 		allLists: document.querySelectorAll( '.created-lists li' ),
-
 
 		// other elements
 		menuIcon: document.getElementsByClassName( 'menu-icon' )[0],
@@ -512,6 +510,8 @@ var syncr = {
 		syncr.closeMenu();
 	},
 
+
+
 	// close modal windows
 	closeModal: function () {
 
@@ -547,6 +547,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 	});
 
+
 	// close the menu when clicking on the list view
 	$( '.close-menu' ).on( 'click', function () {
 
@@ -554,6 +555,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		syncr.closeMenu();
 
 	});
+
 
 	// when clicking on the create button or inputs...
 	$( '#createList' ).on( 'click', function () {
@@ -564,6 +566,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 	});
 
+
 	// rename the current list
 	$( '.menu-view' ).on( 'click', '#renameList.on', function () {
 
@@ -573,12 +576,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
 	});
 
+
 	// clear all items of the current list
 	$( '.menu-view' ).on( 'click', '#clearList.on', function () {
 
 		syncr.openModal( 'clear-modal' );
 
 	});
+
 
 	// delete the current list
 	$( '.menu-view' ).on( 'click', '#deleteList.on', function () {
@@ -701,6 +706,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		syncr.setItem( e, syncr.currentList );
 
 	});
+
 
 
 
