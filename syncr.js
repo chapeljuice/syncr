@@ -8,6 +8,9 @@ var syncr = {
 	// variables //
 	///////////////
 
+	// store the data in an easy to access variable
+	data: '',
+
 	// contain the number of the new list being made
 	newListNumber: '',
 
@@ -98,6 +101,57 @@ var syncr = {
 
 		// set the 'left' property to be half the menu width minus the width of the footer
 		syncr.selector.footer.style.left = ( menuWidth / 2 ) - ( footerWidth / 2 ) + 'px';
+	},
+
+
+
+	// getting data from the static json file for now. later we can change it to be a real live database. with bases for data and everything!
+	//// example of how to get at the data:
+	//// syncr.data.list[2].items[2] = "third item three"
+	getData: function () {
+
+		// create new XHR request
+		var xhrF = new XMLHttpRequest(),
+
+			// url of the data
+			url = 'syncrdata.json';
+
+		// check the ready state
+		xhrF.onreadystatechange = function () {
+			if ( xhrF.readyState == 4 ) {
+
+				// check the status of the results response
+				if ( ( xhrF.status >= 200 && xhrF.status < 300 ) || xhrF.status == 304 ) {
+
+					// parse the response and iterate through them
+					syncr.data = JSON.parse( xhrF.responseText );
+
+					// for every list...
+					for ( var i = 0; i < syncr.data.list.length; i++ ) {
+
+						// write the data to the page
+						if ( i === 0 ) {
+
+							$( '.created-lists ol' )
+								.append( '<li class="active" id="pickList-' + syncr.data.list[i].id + '">' + syncr.data.list[i].title + '</li>' );
+
+						} else {
+
+							$( '.created-lists ol' )
+								.append( '<li class="hide" id="pickList-' + syncr.data.list[i].id + '">' + syncr.data.list[i].title + '</li>' );
+
+						}
+					}
+
+				}
+
+			}
+		};
+
+		// prepare the request to get the list results
+		xhrF.open( 'get', url, true);
+		xhrF.send( null );
+
 	},
 
 
