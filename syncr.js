@@ -57,6 +57,7 @@ var syncr = {
 		deleteButton: document.getElementsByClassName( 'delete-item--button' )[0],
 
 		// list elements
+		listView: document.getElementById( 'listView' ),
 		lists: document.getElementsByClassName( 'list' ),
 		createdLists: document.querySelectorAll( '.created-lists ol' )[0],
 
@@ -76,6 +77,8 @@ var syncr = {
 	//////////////////////////////////
 
 	initialize: function () {
+
+		// syncr.getData();
 
 		syncr.numberOfLists = document.querySelectorAll( '.created-lists li' ).length;
 
@@ -121,11 +124,14 @@ var syncr = {
 				// check the status of the results response
 				if ( ( xhrF.status >= 200 && xhrF.status < 300 ) || xhrF.status == 304 ) {
 
+					console.log( xhrF.status );
+
 					// parse the response and iterate through them
 					syncr.data = JSON.parse( xhrF.responseText );
 
 					//
 					var createListTitle = [];
+					var createListItems = [];
 
 					// for every list...
 					for ( var i = 0; i < syncr.data.list.length; i++ ) {
@@ -140,6 +146,14 @@ var syncr = {
 							createListTitle[i].innerHTML = syncr.data.list[i].title;
 							syncr.selector.createdLists.appendChild( createListTitle[i] );
 
+
+							createListItems[i] = document.createElement( 'ol' );
+							createListItems[i].classList.add( 'list' );
+							createListItems[i].classList.add( 'active' );
+							createListItems[i].id = 'list-' + syncr.data.list[i].id;
+							createListItems[i].innerHTML = '<li class="add-new-item">+ New item</li>';
+							syncr.selector.listView.insertBefore( createListItems[i], syncr.selector.closeMenu );
+
 						} else {
 
 							createListTitle[i] = document.createElement( 'li' );
@@ -150,6 +164,8 @@ var syncr = {
 
 						}
 					}
+
+					// syncr.numberOfLists = document.querySelectorAll( '.created-lists li' ).length;
 
 				}
 
