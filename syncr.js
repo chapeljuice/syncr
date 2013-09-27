@@ -58,9 +58,7 @@ var syncr = {
 
 		// list elements
 		lists: document.getElementsByClassName( 'list' ),
-
-		// item elements
-		allLists: document.querySelectorAll( '.created-lists li' ),
+		createdLists: document.querySelectorAll( '.created-lists ol' )[0],
 
 		// other elements
 		menuIcon: document.getElementsByClassName( 'menu-icon' )[0],
@@ -79,7 +77,7 @@ var syncr = {
 
 	initialize: function () {
 
-		syncr.numberOfLists = syncr.selector.allLists.length;
+		syncr.numberOfLists = document.querySelectorAll( '.created-lists li' ).length;
 
 		// if there aren't any lists, help the user out
 		if ( syncr.numberOfLists === 0 ) {
@@ -126,19 +124,29 @@ var syncr = {
 					// parse the response and iterate through them
 					syncr.data = JSON.parse( xhrF.responseText );
 
+					//
+					var createListTitle = [];
+
 					// for every list...
 					for ( var i = 0; i < syncr.data.list.length; i++ ) {
+
 
 						// write the data to the page
 						if ( i === 0 ) {
 
-							$( '.created-lists ol' )
-								.append( '<li class="active" id="pickList-' + syncr.data.list[i].id + '">' + syncr.data.list[i].title + '</li>' );
+							createListTitle[i] = document.createElement( 'li' );
+							createListTitle[i].classList.add( 'active' );
+							createListTitle[i].id = 'picklist-' + syncr.data.list[i].id;
+							createListTitle[i].innerHTML = syncr.data.list[i].title;
+							syncr.selector.createdLists.appendChild( createListTitle[i] );
 
 						} else {
 
-							$( '.created-lists ol' )
-								.append( '<li class="hide" id="pickList-' + syncr.data.list[i].id + '">' + syncr.data.list[i].title + '</li>' );
+							createListTitle[i] = document.createElement( 'li' );
+							createListTitle[i].classList.add( 'hide' );
+							createListTitle[i].id = 'picklist-' + syncr.data.list[i].id;
+							createListTitle[i].innerHTML = syncr.data.list[i].title;
+							syncr.selector.createdLists.appendChild( createListTitle[i] );
 
 						}
 					}
@@ -321,7 +329,7 @@ var syncr = {
 		$( '.created-lists .active' )
 			.remove();
 
-		syncr.numberOfLists = syncr.selector.allLists.length;
+		syncr.numberOfLists = document.querySelectorAll( '.created-lists li' ).length;
 
 		// check to see if there are any lists left over
 		if ( syncr.numberOfLists > 0 ) {
