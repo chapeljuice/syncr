@@ -129,7 +129,7 @@ var syncr = {
 					// parse the response and iterate through them
 					syncr.data = JSON.parse( xhrF.responseText );
 
-					//
+					// temp variables for creating lists from a json file
 					var createListTitle = [];
 					var createListItems = [];
 
@@ -140,13 +140,14 @@ var syncr = {
 						// write the data to the page
 						if ( i === 0 ) {
 
+							// for the first list, create the title with a class of active
 							createListTitle[i] = document.createElement( 'li' );
 							createListTitle[i].classList.add( 'active' );
 							createListTitle[i].id = 'picklist-' + syncr.data.list[i].id;
 							createListTitle[i].innerHTML = syncr.data.list[i].title;
 							syncr.selector.createdLists.appendChild( createListTitle[i] );
 
-
+							// then create and show the items
 							createListItems[i] = document.createElement( 'ol' );
 							createListItems[i].classList.add( 'list' );
 							createListItems[i].classList.add( 'active' );
@@ -156,11 +157,20 @@ var syncr = {
 
 						} else {
 
+							// create all other titles, and hide them
 							createListTitle[i] = document.createElement( 'li' );
 							createListTitle[i].classList.add( 'hide' );
 							createListTitle[i].id = 'picklist-' + syncr.data.list[i].id;
 							createListTitle[i].innerHTML = syncr.data.list[i].title;
 							syncr.selector.createdLists.appendChild( createListTitle[i] );
+
+							// create the other items for the hidden lists, and hide them
+							createListItems[i] = document.createElement( 'ol' );
+							createListItems[i].classList.add( 'list' );
+							createListItems[i].classList.add( 'hide' );
+							createListItems[i].id = 'list-' + syncr.data.list[i].id;
+							createListItems[i].innerHTML = '<li class="add-new-item">+ New item</li>';
+							syncr.selector.listView.insertBefore( createListItems[i], syncr.selector.closeMenu );
 
 						}
 					}
