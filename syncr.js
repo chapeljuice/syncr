@@ -147,12 +147,17 @@ var syncr = {
 							createListTitle[i].innerHTML = syncr.data.list[i].title;
 							syncr.selector.createdLists.appendChild( createListTitle[i] );
 
-							// then create and show the items
+							// then create and show the first lists items
 							createListItems[i] = document.createElement( 'ol' );
 							createListItems[i].classList.add( 'list' );
 							createListItems[i].classList.add( 'active' );
 							createListItems[i].id = 'list-' + syncr.data.list[i].id;
-							createListItems[i].innerHTML = '<li class="add-new-item">+ New item</li>';
+
+							// for every item in the first list
+							for ( var j = 0; j < syncr.data.list[i].items[j].length; j++ ) {
+								createListItems[i].innerHTML = syncr.data.list[i].items[j];
+							}
+							
 							syncr.selector.listView.insertBefore( createListItems[i], syncr.selector.closeMenu );
 
 						} else {
