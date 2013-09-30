@@ -124,8 +124,6 @@ var syncr = {
 				// check the status of the results response
 				if ( ( xhrF.status >= 200 && xhrF.status < 300 ) || xhrF.status == 304 ) {
 
-					console.log( xhrF.status );
-
 					// parse the response and iterate through them
 					syncr.data = JSON.parse( xhrF.responseText );
 
@@ -157,7 +155,7 @@ var syncr = {
 							for ( var j = 0; j < syncr.data.list[i].items[j].length; j++ ) {
 								createListItems[i].innerHTML = syncr.data.list[i].items[j];
 							}
-							
+
 							syncr.selector.listView.insertBefore( createListItems[i], syncr.selector.closeMenu );
 
 						} else {
