@@ -152,7 +152,7 @@ var syncr = {
 							createListItems[i].id = 'list-' + syncr.data.list[i].id;
 
 							// for every item in the first list
-							for ( var j = 0; j < syncr.data.list[i].items[j].length; j++ ) {
+							for ( var j = 0; j < syncr.data.list[i].items.length; j++ ) {
 								createListItems[i].innerHTML = syncr.data.list[i].items[j];
 							}
 
