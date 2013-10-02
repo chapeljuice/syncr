@@ -78,16 +78,9 @@ var syncr = {
 
 	initialize: function () {
 
-		// syncr.getData();
+		syncr.getData();
 
 		syncr.numberOfLists = document.querySelectorAll( '.created-lists li' ).length;
-
-		// if there aren't any lists, help the user out
-		if ( syncr.numberOfLists === 0 ) {
-
-			syncr.openModal( 'create-modal', 'welcome-text' );
-			syncr.selector.createInput.focus();
-		}
 
 		// align the footer element
 		syncr.alignFooter();
@@ -129,6 +122,7 @@ var syncr = {
 
 					// temp variables for creating lists from a json file
 					var createListTitle = [];
+					var createList = [];
 					var createListItems = [];
 
 					// for every list...
@@ -138,6 +132,15 @@ var syncr = {
 						// write the data to the page
 						if ( i === 0 ) {
 
+							/* 
+								<ol class="list active" id="list-1">
+									<li class="item-1">fjtyh</li>
+									<li class="item-2">dfgh</li>
+									<li class="item-3">dfng</li>
+									<li class="add-new-item">+ New item</li>
+								</ol>
+							 */
+
 							// for the first list, create the title with a class of active
 							createListTitle[i] = document.createElement( 'li' );
 							createListTitle[i].classList.add( 'active' );
@@ -145,18 +148,24 @@ var syncr = {
 							createListTitle[i].innerHTML = syncr.data.list[i].title;
 							syncr.selector.createdLists.appendChild( createListTitle[i] );
 
-							// then create and show the first lists items
-							createListItems[i] = document.createElement( 'ol' );
-							createListItems[i].classList.add( 'list' );
-							createListItems[i].classList.add( 'active' );
-							createListItems[i].id = 'list-' + syncr.data.list[i].id;
+							// then create the first list to house the items
+							createList[i] = document.createElement( 'ol' );
+							createList[i].classList.add( 'list' );
+							createList[i].classList.add( 'active' );
+							createList[i].id = 'list-' + syncr.data.list[i].id;
 
-							// for every item in the first list
+							// and insert it into the DOM before the close menu element
+							syncr.selector.listView.insertBefore( createList[i], syncr.selector.closeMenu );
+
+							// then put the items in that list
 							for ( var j = 0; j < syncr.data.list[i].items.length; j++ ) {
-								createListItems[i].innerHTML = syncr.data.list[i].items[j];
+								createListItems[j] = document.createElement( 'li' );
+								createListItems[j].classList.add( 'item-' + ( j + 1 ) );
+								createListItems[j].innerHTML = syncr.data.list[i].items[j];
+								document.getElementById( 'list-' + ( i + 1 ) ).appendChild( createListItems[j] );
 							}
 
-							syncr.selector.listView.insertBefore( createListItems[i], syncr.selector.closeMenu );
+							console.log( createList[i] );
 
 						} else {
 
@@ -167,18 +176,29 @@ var syncr = {
 							createListTitle[i].innerHTML = syncr.data.list[i].title;
 							syncr.selector.createdLists.appendChild( createListTitle[i] );
 
-							// create the other items for the hidden lists, and hide them
-							createListItems[i] = document.createElement( 'ol' );
-							createListItems[i].classList.add( 'list' );
-							createListItems[i].classList.add( 'hide' );
-							createListItems[i].id = 'list-' + syncr.data.list[i].id;
-							createListItems[i].innerHTML = '<li class="add-new-item">+ New item</li>';
-							syncr.selector.listView.insertBefore( createListItems[i], syncr.selector.closeMenu );
+							// then create the first list to house the items
+							createList[i] = document.createElement( 'ol' );
+							createList[i].classList.add( 'list' );
+							createList[i].classList.add( 'hide' );
+							createList[i].id = 'list-' + syncr.data.list[i].id;
+
+							// and insert it into the DOM before the close menu element
+							syncr.selector.listView.insertBefore( createList[i], syncr.selector.closeMenu );
+
+							// then put the items in that list
+							for ( var k = 0; k < syncr.data.list[i].items.length; k++ ) {
+								createListItems[k] = document.createElement( 'li' );
+								createListItems[k].classList.add( 'item-' + ( k + 1 ) );
+								createListItems[k].innerHTML = syncr.data.list[i].items[k];
+								document.getElementById( 'list-' + ( i + 1 ) ).appendChild( createListItems[k] );
+							}
+
+							console.log( createList[i] );
 
 						}
 					}
 
-					// syncr.numberOfLists = document.querySelectorAll( '.created-lists li' ).length;
+					syncr.numberOfLists = document.querySelectorAll( '.created-lists li' ).length;
 
 				}
 
