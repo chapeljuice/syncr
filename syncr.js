@@ -165,8 +165,6 @@ var syncr = {
 								document.getElementById( 'list-' + ( i + 1 ) ).appendChild( createListItems[j] );
 							}
 
-							console.log( createList[i] );
-
 						} else {
 
 							// create all other titles, and hide them
@@ -192,8 +190,6 @@ var syncr = {
 								createListItems[k].innerHTML = syncr.data.list[i].items[k];
 								document.getElementById( 'list-' + ( i + 1 ) ).appendChild( createListItems[k] );
 							}
-
-							console.log( createList[i] );
 
 						}
 					}
