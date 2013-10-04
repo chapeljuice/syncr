@@ -144,7 +144,7 @@ var syncr = {
 							// for the first list, create the title with a class of active
 							createListTitle[i] = document.createElement( 'li' );
 							createListTitle[i].classList.add( 'active' );
-							createListTitle[i].id = 'picklist-' + syncr.data.list[i].id;
+							createListTitle[i].id = 'pickList-' + syncr.data.list[i].id;
 							createListTitle[i].innerHTML = syncr.data.list[i].title;
 							syncr.selector.createdLists.appendChild( createListTitle[i] );
 
@@ -170,7 +170,7 @@ var syncr = {
 							// create all other titles, and hide them
 							createListTitle[i] = document.createElement( 'li' );
 							createListTitle[i].classList.add( 'hide' );
-							createListTitle[i].id = 'picklist-' + syncr.data.list[i].id;
+							createListTitle[i].id = 'pickList-' + syncr.data.list[i].id;
 							createListTitle[i].innerHTML = syncr.data.list[i].title;
 							syncr.selector.createdLists.appendChild( createListTitle[i] );
 
